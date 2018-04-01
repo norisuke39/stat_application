@@ -1,0 +1,25 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  PRICE   R-squared:                       0.485
+Model:                            OLS   Adj. R-squared:                  0.484
+Method:                 Least Squares   F-statistic:                     465.4
+Date:                Fri, 23 Mar 2018   Prob (F-statistic):           3.24e-73
+Time:                        23:44:16   Log-Likelihood:                -1643.0
+No. Observations:                 496   AIC:                             3290.
+Df Residuals:                     494   BIC:                             3298.
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const        -34.8922      2.682    -13.012      0.000     -40.161     -29.624
+RM             9.1428      0.424     21.573      0.000       8.310       9.976
+==============================================================================
+Omnibus:                       99.787   Durbin-Watson:                   0.688
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              594.501
+Skew:                           0.717   Prob(JB):                    8.05e-130
+Kurtosis:                       8.168   Cond. No.                         58.2
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
