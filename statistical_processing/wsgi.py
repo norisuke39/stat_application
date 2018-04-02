@@ -11,6 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 from socket import gethostname
+from dj_static import Cling
 
 hostname = gethostname()
 
@@ -21,7 +22,6 @@ if 'local' in hostname:
     application = get_wsgi_application()
 
 else:
-    from dj_static import Cling
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "statistical_processing.settings")
 
