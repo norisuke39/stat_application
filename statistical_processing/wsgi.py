@@ -12,6 +12,7 @@ import os
 from django.core.wsgi import get_wsgi_application
 from socket import gethostname
 from dj_static import Cling
+from whitenoise.django import DjangoWhiteNoise
 
 hostname = gethostname()
 
@@ -24,5 +25,6 @@ if 'local' in hostname:
 else:
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "statistical_processing.settings")
-
-    application = Cling(get_wsgi_application())
+    application = get_wsgi_application()
+    application = DjangoWhiteNoise(application)
+    #application = Cling(get_wsgi_application())
