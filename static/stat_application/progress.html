@@ -1,0 +1,29 @@
+{% extends "stat_application/base.html" %}
+
+{% block title %}DataCooking{% endblock title %}
+{% block content %}
+<!--<meta http-equiv="refresh" content="10">-->
+<div class="content-wrapper">
+    <div class="container-fluid">
+      <!--Choose input -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-spinner"></i> 計算中...</div>
+        <div class="card-body">
+    <!--Ajax発火用タグ-->
+    <img id="start">
+  <div class="progress" id='result_bar'>
+    <div class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='{{ progress }}' aria-valuemin='0' aria-valuemax='100' style='width: {{ progress }}%'>{{progress}}%</div>
+  </div>
+      ※SARIMAの計算は時間がかかります。
+  </div>
+            </div>
+      <!--Movie -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-spinner"></i> リゾートの映像でもどうぞ</div>
+        <div class="card-body">
+        <center><iframe width="50%" height="400" src="https://www.youtube.com/embed/MdoFzzX9CAE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></center>
+          </div>
+      </div>
+{% endblock %}
