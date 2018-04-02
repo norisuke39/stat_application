@@ -1,1 +1,1 @@
-web: gunicorn --env DJANGO_SETTINGS_MODULE=stat_application.settings stat_application.wsgi --log-file -
+web: gunicorn statistical_processing.wsgi --log-file -
