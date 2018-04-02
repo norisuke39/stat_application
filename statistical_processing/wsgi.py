@@ -23,6 +23,6 @@ if 'local' in hostname:
 else:
     from dj_static import Cling
 
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stat_application.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "statistical_processing.settings")
 
     application = Cling(get_wsgi_application())
