@@ -13,7 +13,7 @@ from stat_application.models import MethodModel
 from stat_application.models import ProgressModel
 from . import predict_method as pr
 
-def calculate(_col,date,predict,method,obj_option,uuid,session_id,q):
+def calculate(_col,date,predict,method,obj_option,session_id,q):
     ##ファイル読み込み
     #file = FileNameModel.objects.latest('id')
     file = FileNameModel.objects.filter(session_id =session_id).latest('upload_time')
@@ -56,20 +56,20 @@ def calculate(_col,date,predict,method,obj_option,uuid,session_id,q):
     insert_data.save()
     #RNNモデル
     if method == 'rnn':
-        data_result,data_preview,data_ori = pr.forecast_rnn(data_wk,_unique_list,_col,predict,obj_option,uuid,session_id)
+        data_result,data_preview,data_ori = pr.forecast_rnn(data_wk,_unique_list,_col,predict,obj_option,session_id)
     #prophet予測計算
     if method == 'prophet':
-        data_result,data_preview,data_ori = pr.forecast_prophet(data_wk,_unique_list,_col,predict,obj_option,uuid,session_id)
+        data_result,data_preview,data_ori = pr.forecast_prophet(data_wk,_unique_list,_col,predict,obj_option,session_id)
     #状態空間モデル
     if method == 'state_space':
-        data_result,data_preview,data_ori = pr.forecast_state_space(data_wk,_unique_list,_col,predict,obj_option,uuid,session_id)
+        data_result,data_preview,data_ori = pr.forecast_state_space(data_wk,_unique_list,_col,predict,obj_option,session_id)
     #SARIMAモデル
     if method == 'sarima':
-        data_result,data_preview,data_ori = pr.forecast_SARIMA(data_wk,_unique_list,_col,predict,obj_option,uuid,session_id)
+        data_result,data_preview,data_ori = pr.forecast_SARIMA(data_wk,_unique_list,_col,predict,obj_option,session_id)
     #重回帰分析モデル
     if method == 'mlr':
         _col = evar
-        data_result,data_preview,data_ori = pr.forecast_mlr(data_wk,_col,predict,obj_option,uuid,session_id)
+        data_result,data_preview,data_ori = pr.forecast_mlr(data_wk,_col,predict,obj_option,session_id)
 
     ###ファイル保存
     #サーバー

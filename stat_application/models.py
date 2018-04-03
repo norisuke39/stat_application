@@ -13,7 +13,7 @@ class FileNameModel(models.Model):
     session_id = models.CharField(max_length = 100)
     
 class MethodModel(models.Model):
-    id = models.UUIDField(primary_key=True)
+    #id = models.UUIDField(primary_key=True)
     model_ja = models.CharField(max_length = 50)
     model_en = models.CharField(max_length = 50)
     upload_time = models.DateTimeField(default = datetime.now)
@@ -23,7 +23,7 @@ class ProgressModel(models.Model):
     progress = models.IntegerField(default = 0)
     
 class SummaryModel(models.Model):
-    id = models.UUIDField(primary_key=True)
+    #id = models.UUIDField(primary_key=True)
     model = models.CharField(max_length = 50)
     upload_time = models.DateTimeField(default = datetime.now)
     aic = models.FloatField(default = 0)

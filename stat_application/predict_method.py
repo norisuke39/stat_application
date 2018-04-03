@@ -30,7 +30,7 @@ from keras.layers.pooling import MaxPooling1D
 #状態空間モデルでの予測
 
 #Prophetでの予測
-def forecast_prophet(_data,_unique_list,_col,predict,option,uuid,session_id):
+def forecast_prophet(_data,_unique_list,_col,predict,option,session_id):
     ###変数まとめ
     estimate_method = option[3]
     growth = option[3] #線形or非線形
@@ -95,7 +95,7 @@ def forecast_prophet(_data,_unique_list,_col,predict,option,uuid,session_id):
         #保存用に形式揃え
         pred_df = pd.DataFrame(forecast_df)
         
-        insert_data = SummaryModel(id = uuid,model = option[4],method = estimate_method,session_id=session_id)
+        insert_data = SummaryModel(model = option[4],method = estimate_method,session_id=session_id)
         insert_data.save()
         
         for (i,j) in zip(_col,row):
@@ -123,7 +123,7 @@ def forecast_prophet(_data,_unique_list,_col,predict,option,uuid,session_id):
 
 #SARIMAモデルでの予測
 @jit
-def forecast_SARIMA(_data,_unique_list,_col,predict,option,uuid,session_id):
+def forecast_SARIMA(_data,_unique_list,_col,predict,option,session_id):
     estimate_method = option[3] #推定方法
     seasonal = int(option[2]) #シーズナル間隔
     flag = option[5] #最適化計算か決め計算
@@ -266,7 +266,7 @@ def forecast_SARIMA(_data,_unique_list,_col,predict,option,uuid,session_id):
     return data_stat,data_stat_preview,data_ori
 
 ##状態空間モデル
-def forecast_state_space(_data,_unique_list,_col,predict,option,uuid,session_id):
+def forecast_state_space(_data,_unique_list,_col,predict,option,session_id):
     #変数まとめ
     estimate_method = option[3] #推定方法
     seasonal = int(option[2]) #シーズナル間隔
@@ -315,7 +315,7 @@ def forecast_state_space(_data,_unique_list,_col,predict,option,uuid,session_id)
         aic = round(res_season_trend.aic,3)
         bic = round(res_season_trend.bic,3)
         hqic = round(res_season_trend.hqic,3)
-        insert_data = SummaryModel(id = uuid,model = option[4],aic = aic, bic = bic,hqic = hqic,method = estimate_method,session_id=session_id)
+        insert_data = SummaryModel(model = option[4],aic = aic, bic = bic,hqic = hqic,method = estimate_method,session_id=session_id)
         insert_data.save()
 
         # 推定された状態・トレンド・季節の影響の描画
@@ -357,7 +357,7 @@ def forecast_state_space(_data,_unique_list,_col,predict,option,uuid,session_id)
         
     return data_stat,data_stat_preview,data_ori
 
-def forecast_rnn(_data,_unique_list,_col,predict,option,uuid,session_id):
+def forecast_rnn(_data,_unique_list,_col,predict,option,session_id):
     
     #変数まとめ
     estimate_method = option[3] #推定方法
@@ -445,7 +445,7 @@ def forecast_rnn(_data,_unique_list,_col,predict,option,uuid,session_id):
         #plt.legend() 
         #plt.show()
         
-        insert_data = SummaryModel(id = uuid,model = option[4],method = estimate_method,session_id=session_id)
+        insert_data = SummaryModel(model = option[4],method = estimate_method,session_id=session_id)
         insert_data.save()
         
         #保存用に形式揃え
@@ -474,7 +474,7 @@ def forecast_rnn(_data,_unique_list,_col,predict,option,uuid,session_id):
     return data_stat,data_stat_preview,data_ori
 
 #重回帰分析での予測
-def forecast_mlr(_data,_col,predict,option,uuid,session_id):
+def forecast_mlr(_data,_col,predict,option,session_id):
     ###変数まとめ
     estimate_method = option[1]
     
@@ -519,7 +519,7 @@ def forecast_mlr(_data,_col,predict,option,uuid,session_id):
         Y_pre[i] = result.params[i]*X_all[i]
     pred_df = Y_pre.sum(axis = 1) + result.params[0]
 
-    insert_data = SummaryModel(id = uuid,model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout,session_id=session_id)
+    insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout,session_id=session_id)
     insert_data.save()
 
     #preview用データ格納

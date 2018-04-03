@@ -58,8 +58,8 @@ def state_space(request):
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
-        request.session['uuid'] = str(uuid.id)
-        insert_data = MethodModel(id = request.session['uuid'],model_ja = '状態空間モデル',model_en = 'state_space',session_id=request.session.session_key)
+        #request.session['uuid'] = str(uuid.id)
+        insert_data = MethodModel(model_ja = '状態空間モデル',model_en = 'state_space',session_id=request.session.session_key)
         insert_data.save()
         return redirect('stat_application:choice_column')  
     except:
@@ -86,8 +86,8 @@ def sarima(request):
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
-        request.session['uuid'] = str(uuid.id)
-        insert_data = MethodModel(id = request.session['uuid'],model_ja = 'SARIMAモデル',model_en = 'sarima',session_id=request.session.session_key)
+        #request.session['uuid'] = str(uuid.id)
+        insert_data = MethodModel(model_ja = 'SARIMAモデル',model_en = 'sarima',session_id=request.session.session_key)
         insert_data.save()
         return redirect('stat_application:choice_column')   
     except:
@@ -114,8 +114,8 @@ def prophet(request):
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
-        request.session['uuid'] = str(uuid.id)
-        insert_data = MethodModel(id = request.session['uuid'],model_ja = 'Prophetモデル',model_en = 'prophet',session_id=request.session.session_key)
+        #request.session['uuid'] = str(uuid.id)
+        insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet',session_id=request.session.session_key)
         insert_data.save()
         return redirect('stat_application:choice_column')   
     except:
@@ -142,8 +142,8 @@ def rnn(request):
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
-        request.session['uuid'] = str(uuid.id)
-        insert_data = MethodModel(id = request.session['uuid'],model_ja = 'RNNモデル',model_en = 'rnn',session_id=request.session.session_key)
+        #request.session['uuid'] = str(uuid.id)
+        insert_data = MethodModel(model_ja = 'RNNモデル',model_en = 'rnn',session_id=request.session.session_key)
         insert_data.save()
         return redirect('stat_application:choice_column')   
     except:
@@ -170,8 +170,8 @@ def multiple_regression(request):
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
-        request.session['uuid'] = str(uuid.id)
-        insert_data = MethodModel(id = request.session['uuid'],model_ja = '重回帰モデル',model_en = 'mlr',session_id=request.session.session_key)
+        #request.session['uuid'] = str(uuid.id)
+        insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=request.session.session_key)
         insert_data.save()
         return redirect('stat_application:choice_column')   
     except:
@@ -238,7 +238,7 @@ def choice_column(request):
             obj_constflag = 0
         obj_option = list([obj_holdout,obj_method,calc_model.model_ja,obj_constflag])
         queue = mp.Queue()
-        p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,request.session['uuid'],request.session.session_key,queue))
+        p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,request.session.session_key,queue))
         p.start()
         return redirect('stat_application:progress')
     ###時系列予測の計算結果
@@ -284,7 +284,7 @@ def choice_column(request):
             obj_option = list([obj_holdout,obj_predictspan,obj_seasonal,obj_method,calc_model.model_ja])
         #Ajaxでプログレスバーを非同期的に更新するため、マルチプロセッシング計算
         queue = mp.Queue()
-        p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session['uuid'],request.session.session_key,queue))
+        p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session.session_key,queue))
         #result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session['uuid'],request.session.session_key)
         p.start()
         return redirect('stat_application:progress')
