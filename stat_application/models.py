@@ -7,13 +7,14 @@ from datetime import datetime
 
 class FileNameModel(models.Model):
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
+    session_id = models.CharField(max_length = 50)
     file_name = models.CharField(max_length = 50)
     upload_time = models.DateTimeField(default = datetime.now)
     #file_obj = models.FileField(upload_to = 'statistical_processing/static/files/')
     file_obj = models.FileField(upload_to = 'temp/files/')
-    session_id = models.CharField(max_length = 50)
     
 class MethodModel(models.Model):
+    #id = models.UUIDField(primary_key=True)
     model_ja = models.CharField(max_length = 50)
     model_en = models.CharField(max_length = 50)
     upload_time = models.DateTimeField(default = datetime.now)
