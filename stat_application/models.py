@@ -14,7 +14,6 @@ class FileNameModel(models.Model):
     session_id = models.CharField(max_length = 50)
     
 class MethodModel(models.Model):
-    #id = models.UUIDField(primary_key=True)
     model_ja = models.CharField(max_length = 50)
     model_en = models.CharField(max_length = 50)
     upload_time = models.DateTimeField(default = datetime.now)
