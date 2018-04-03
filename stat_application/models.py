@@ -9,8 +9,9 @@ class FileNameModel(models.Model):
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
     file_name = models.CharField(max_length = 50)
     upload_time = models.DateTimeField(default = datetime.now)
-    file_obj = models.FileField(upload_to = 'statistical_processing/static/files/')
-    session_id = models.CharField(max_length = 100)
+    #file_obj = models.FileField(upload_to = 'statistical_processing/static/files/')
+    file_obj = models.FileField(upload_to = 'temp/files/')
+    session = models.CharField(max_length = 100)
     
 class MethodModel(models.Model):
     #id = models.UUIDField(primary_key=True)
