@@ -6,7 +6,7 @@ from stat_application.models import SummaryModel
 from stat_application.models import ProgressModel
 
 class FileNameAdmin(admin.ModelAdmin):
-    list_display = ('id', 'file_name', 'upload_time','file_obj','session')
+    list_display = ('id', 'file_name', 'upload_time','file_obj')
     list_display_links = ('id', 'file_name')
     
 class MethodAdmin(admin.ModelAdmin):
