@@ -7,7 +7,6 @@ from datetime import datetime
 
 class FileNameModel(models.Model):
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
-    id = models.UUIDField(primary_key=True, default=RandomUUID(), editable=False)
     file_name = models.CharField(max_length = 50)
     upload_time = models.DateTimeField(default = datetime.now)
     file_obj = models.FileField(upload_to = 'statistical_processing/static/files/')
