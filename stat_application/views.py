@@ -54,14 +54,12 @@ def state_space(request):
             destination.write(chunk)
         destination.close()
         #File名をサーバーに保存
-        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
-        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id='23452323')
+        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
         #request.session['uuid'] = str(uuid.id)
-        #insert_data = MethodModel(model_ja = '状態空間モデル',model_en = 'state_space',session_id=request.session.session_key)
-        insert_data = MethodModel(model_ja = '状態空間モデル',model_en = 'state_space',session_id='23452323')
+        insert_data = MethodModel(model_ja = '状態空間モデル',model_en = 'state_space',session_id=request.session.session_key)
         insert_data.save()
         return redirect('stat_application:choice_column')  
     except:
@@ -84,14 +82,12 @@ def sarima(request):
             destination.write(chunk)
         destination.close()
         #File名をサーバーに保存
-        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
-        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id='23452323')
+        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
         #request.session['uuid'] = str(uuid.id)
-        #insert_data = MethodModel(model_ja = 'SARIMAモデル',model_en = 'sarima',session_id=request.session.session_key)
-        insert_data = MethodModel(model_ja = 'SARIMAモデル',model_en = 'sarima',session_id='23452323')
+        insert_data = MethodModel(model_ja = 'SARIMAモデル',model_en = 'sarima',session_id=request.session.session_key)
         insert_data.save()
         return redirect('stat_application:choice_column')   
     except:
@@ -114,14 +110,12 @@ def prophet(request):
             destination.write(chunk)
         destination.close()
         #File名をサーバーに保存
-        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
-        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id='23452323')
+        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
         #request.session['uuid'] = str(uuid.id)
-        #insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet',session_id=request.session.session_key)
-        insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet',session_id='23452323')
+        insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet',session_id=request.session.session_key)
         insert_data.save()
         return redirect('stat_application:choice_column')   
     except:
@@ -144,14 +138,12 @@ def rnn(request):
             destination.write(chunk)
         destination.close()
         #File名をサーバーに保存
-        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
-        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id='23452323')
+        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
         #request.session['uuid'] = str(uuid.id)
-        #insert_data = MethodModel(model_ja = 'RNNモデル',model_en = 'rnn',session_id=request.session.session_key)
-        insert_data = MethodModel(model_ja = 'RNNモデル',model_en = 'rnn',session_id='23452323')
+        insert_data = MethodModel(model_ja = 'RNNモデル',model_en = 'rnn',session_id=request.session.session_key)
         insert_data.save()
         return redirect('stat_application:choice_column')   
     except:
@@ -174,14 +166,12 @@ def multiple_regression(request):
             destination.write(chunk)
         destination.close()
         #File名をサーバーに保存
-        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
-        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id='23452323')
+        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
         #request.session['uuid'] = str(uuid.id)
-        #insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=request.session.session_key)
-        insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id='23452323')
+        insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=request.session.session_key)
         insert_data.save()
         return redirect('stat_application:choice_column')   
     except:
@@ -191,14 +181,12 @@ def multiple_regression(request):
 def choice_column(request):    
     #データベースに格納されたファイルオブジェクトを抽出→URLを抽出→ファイルデータを格納
     #temp = FileNameModel.objects.latest('id')
-    #temp = FileNameModel.objects.filter(session_id =request.session.session_key).latest('upload_time')
-    temp = FileNameModel.objects.filter(session_id ='23452323').latest('upload_time')
+    temp = FileNameModel.objects.filter(session_id =request.session.session_key).latest('upload_time')
     csv_data = pd.read_csv(temp.file_obj.url, encoding = 'ms932')
     csv_data.isnull = '-'  
     #どのモデルでの計算かを取得
     #calc_model = MethodModel.objects.latest('id')
-    #calc_model = MethodModel.objects.filter(session_id =request.session.session_key).latest('upload_time')
-    calc_model = MethodModel.objects.filter(session_id ='23452323').latest('upload_time')
+    calc_model = MethodModel.objects.filter(session_id =request.session.session_key).latest('upload_time')
     #選択されたファイルのカラム名をリスト化(アロケ粒度用)
     group1 = []
     for factor in csv_data.select_dtypes(include=['number']).columns:#本来はexclude=['number']
@@ -250,8 +238,7 @@ def choice_column(request):
             obj_constflag = 0
         obj_option = list([obj_holdout,obj_method,calc_model.model_ja,obj_constflag])
         queue = mp.Queue()
-        #p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,request.session.session_key,queue))
-        p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,'23452323',queue))
+        p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,request.session.session_key,queue))
         p.start()
         return redirect('stat_application:progress')
     ###時系列予測の計算結果
@@ -297,8 +284,7 @@ def choice_column(request):
             obj_option = list([obj_holdout,obj_predictspan,obj_seasonal,obj_method,calc_model.model_ja])
         #Ajaxでプログレスバーを非同期的に更新するため、マルチプロセッシング計算
         queue = mp.Queue()
-        #p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session.session_key,queue))
-        p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,'23452323',queue))
+        p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session.session_key,queue))
         #result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session['uuid'],request.session.session_key)
         p.start()
         return redirect('stat_application:progress')
@@ -314,8 +300,7 @@ def choice_column(request):
 #出力結果レンダリング関数
 def result(request):  
     #AIC、BIC、HQIC等のモデルの評価指標を格納
-    #summary = SummaryModel.objects.filter(session_id =request.session.session_key).latest('upload_time')
-    summary = SummaryModel.objects.filter(session_id ='23452323').latest('upload_time')
+    summary = SummaryModel.objects.filter(session_id =request.session.session_key).latest('upload_time')
     #予測値のみ
     result_file_name = './result/forecast_result_preview.csv'
     _data_predict = pd.read_csv(result_file_name, encoding='ms932')
