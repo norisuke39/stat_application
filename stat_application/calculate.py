@@ -17,6 +17,7 @@ from . import predict_method as pr
 UPLOADE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def calculate(_col,date,predict,method,obj_option,session_id,q):
+    print('hogehogehoge')
     ##ファイル読み込み
     file = FileNameModel.objects.latest('id')
     #file = FileNameModel.objects.filter(session_id =session_id).latest('upload_time')
