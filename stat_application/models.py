@@ -13,14 +13,14 @@ class FileNameModel(models.Model):
     upload_time = models.DateTimeField(default = datetime.now)
     #file_obj = models.FileField(upload_to = 'statistical_processing/static/files/')
     file_obj = models.FileField(upload_to = 'stat_application/temp/files/')
-    session_id = models.CharField(max_length = 50)
+    #session_id = models.CharField(max_length = 50)
     
 class MethodModel(models.Model):
     #id = models.UUIDField(primary_key=True)
     model_ja = models.CharField(max_length = 50)
     model_en = models.CharField(max_length = 50)
     upload_time = models.DateTimeField(default = datetime.now)
-    session_id = models.CharField(max_length = 50)
+    #session_id = models.CharField(max_length = 50)
     
 class ProgressModel(models.Model):
     progress = models.IntegerField(default = 0)
@@ -43,4 +43,4 @@ class SummaryModel(models.Model):
     dw = models.FloatField(default = 0)
     holdout = models.IntegerField(default = 0)
     method = models.CharField(max_length = 50)
-    session_id = models.CharField(max_length = 50)
+    #session_id = models.CharField(max_length = 50)

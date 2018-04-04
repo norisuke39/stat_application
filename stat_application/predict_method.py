@@ -96,7 +96,8 @@ def forecast_prophet(_data,_unique_list,_col,predict,option,session_id):
         #保存用に形式揃え
         pred_df = pd.DataFrame(forecast_df)
         
-        insert_data = SummaryModel(model = option[4],method = estimate_method,session_id=session_id)
+        #insert_data = SummaryModel(model = option[4],method = estimate_method,session_id=session_id)
+        insert_data = SummaryModel(model = option[4],method = estimate_method)
         insert_data.save()
         
         for (i,j) in zip(_col,row):
@@ -234,7 +235,8 @@ def forecast_SARIMA(_data,_unique_list,_col,predict,option,session_id):
         aic = round(bestSARIMA.aic,3)
         bic = round(bestSARIMA.bic,3)
         hqic = round(bestSARIMA.hqic,3)
-        insert_data = SummaryModel(id = uuid,model = option[4],aic = aic, bic = bic,hqic = hqic,p=p,d=d,q=q,sp=sp,sd=sd,sq=sq,method = estimate_method,session_id=session_id)
+        #insert_data = SummaryModel(id = uuid,model = option[4],aic = aic, bic = bic,hqic = hqic,p=p,d=d,q=q,sp=sp,sd=sd,sq=sq,method = estimate_method,session_id=session_id)
+        insert_data = SummaryModel(id = uuid,model = option[4],aic = aic, bic = bic,hqic = hqic,p=p,d=d,q=q,sp=sp,sd=sd,sq=sq,method = estimate_method)
         insert_data.save()
 
         #予測
@@ -316,7 +318,8 @@ def forecast_state_space(_data,_unique_list,_col,predict,option,session_id):
         aic = round(res_season_trend.aic,3)
         bic = round(res_season_trend.bic,3)
         hqic = round(res_season_trend.hqic,3)
-        insert_data = SummaryModel(model = option[4],aic = aic, bic = bic,hqic = hqic,method = estimate_method,session_id=session_id)
+        #insert_data = SummaryModel(model = option[4],aic = aic, bic = bic,hqic = hqic,method = estimate_method,session_id=session_id)
+        insert_data = SummaryModel(model = option[4],aic = aic, bic = bic,hqic = hqic,method = estimate_method)
         insert_data.save()
 
         # 推定された状態・トレンド・季節の影響の描画
@@ -331,7 +334,7 @@ def forecast_state_space(_data,_unique_list,_col,predict,option,session_id):
         rcParams['figure.figsize'] = 15, 6
         #plt.plot(ts)
         #plt.plot(pred, "r")
-        plt.savefig(UPLOADE_DIR +'temp/state_space/pic/'+'_'.join(row) +'.jpg')
+        plt.savefig(UPLOADE_DIR +'/temp/state_space/pic/'+'_'.join(row) +'.jpg')
         
         #保存用に形式揃え
         pred_df = pd.DataFrame(pred,columns = ['yhat'])
@@ -446,7 +449,8 @@ def forecast_rnn(_data,_unique_list,_col,predict,option,session_id):
         #plt.legend() 
         #plt.show()
         
-        insert_data = SummaryModel(model = option[4],method = estimate_method,session_id=session_id)
+        #insert_data = SummaryModel(model = option[4],method = estimate_method,session_id=session_id)
+        insert_data = SummaryModel(model = option[4],method = estimate_method)
         insert_data.save()
         
         #保存用に形式揃え
@@ -521,6 +525,7 @@ def forecast_mlr(_data,_col,predict,option,session_id):
     pred_df = Y_pre.sum(axis = 1) + result.params[0]
 
     insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout,session_id=session_id)
+    insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout)
     insert_data.save()
 
     #preview用データ格納
