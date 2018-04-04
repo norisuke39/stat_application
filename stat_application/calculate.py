@@ -33,7 +33,7 @@ def calculate(_col,date,predict,method,obj_option,session_id,q):
     #回帰分析用に面倒な処理(時系列用の流れを壊さぬよう、一旦説明変数を退避。)
     evar = _col
     _col = list(['hoge'])
-    
+    print('hogehogehoge2')
     ##月単位への変換
     if method != 'mlr':
         _data['date'] = pd.to_datetime(_data[date[0]],format = '%Y-%m-%d')
@@ -58,6 +58,7 @@ def calculate(_col,date,predict,method,obj_option,session_id,q):
     
     insert_data = ProgressModel(progress = 10)
     insert_data.save()
+    print('hogehogehoge3')
     #RNNモデル
     if method == 'rnn':
         data_result,data_preview,data_ori = pr.forecast_rnn(data_wk,_unique_list,_col,predict,obj_option,session_id)
