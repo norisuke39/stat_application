@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 #import itertools
@@ -28,7 +29,7 @@ from keras.layers.pooling import MaxPooling1D
 #決定木モデル
 #ランダムフォレスト
 #状態空間モデルでの予測
-
+UPLOADE_DIR = os.path.dirname(os.path.abspath(__file__))
 #Prophetでの予測
 def forecast_prophet(_data,_unique_list,_col,predict,option,session_id):
     ###変数まとめ
@@ -90,7 +91,7 @@ def forecast_prophet(_data,_unique_list,_col,predict,option,session_id):
             future_df['cap'] = cap
         forecast_df = model.predict(future_df)
         model.plot(forecast_df)
-        plt.savefig('./static/stat_application/'+'_'.join(row) +'.jpg')
+        plt.savefig(UPLOADE_DIR + '/temp/prophet/pic/'+'_'.join(row) +'.jpg')
         
         #保存用に形式揃え
         pred_df = pd.DataFrame(forecast_df)
@@ -330,7 +331,7 @@ def forecast_state_space(_data,_unique_list,_col,predict,option,session_id):
         rcParams['figure.figsize'] = 15, 6
         #plt.plot(ts)
         #plt.plot(pred, "r")
-        plt.savefig('./static/stat_application/'+'_'.join(row) +'.jpg')
+        plt.savefig(UPLOADE_DIR +'temp/state_space/pic/'+'_'.join(row) +'.jpg')
         
         #保存用に形式揃え
         pred_df = pd.DataFrame(pred,columns = ['yhat'])
@@ -509,7 +510,7 @@ def forecast_mlr(_data,_col,predict,option,session_id):
     result = model.fit()
     result.summary()
     ##サマリをテキスト保存
-    f = open( './summary.txt', 'w' ) 
+    f = open( UPLOADE_DIR +'temp/mlr/text/summary.txt', 'w' ) 
     f.write( str(result.summary()) ) 
     f.close()
 

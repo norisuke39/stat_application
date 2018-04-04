@@ -1,16 +1,18 @@
 from django.db import models
 import uuid
-from django.contrib.postgres.functions import RandomUUID
+import os
 
 # Create your models here.
 from datetime import datetime
+
+UPLOADE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class FileNameModel(models.Model):
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
     file_name = models.CharField(max_length = 50)
     upload_time = models.DateTimeField(default = datetime.now)
     #file_obj = models.FileField(upload_to = 'statistical_processing/static/files/')
-    file_obj = models.FileField(upload_to = 'temp/files/')
+    file_obj = models.FileField(upload_to = 'stat_application/temp/files/')
     session_id = models.CharField(max_length = 50)
     
 class MethodModel(models.Model):

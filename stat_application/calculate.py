@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 import scipy.stats 
@@ -12,6 +13,8 @@ from stat_application.models import FileNameModel
 from stat_application.models import MethodModel
 from stat_application.models import ProgressModel
 from . import predict_method as pr
+
+UPLOADE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def calculate(_col,date,predict,method,obj_option,session_id,q):
     ##ファイル読み込み
@@ -77,8 +80,8 @@ def calculate(_col,date,predict,method,obj_option,session_id,q):
     #data_result.to_excel('http://resort-travel.jp/stat_application/result/forecast_result.xlsx',index = False)
     #data_result.to_csv(result_file_name,index = False)
     #ローカル
-    result_file_name = './result/forecast_result.csv'
-    data_result.to_excel('./result/forecast_result.xlsx',index = False)
+    result_file_name = UPLOADE_DIR+'/temp/result/forecast_result.csv'
+    data_result.to_excel(UPLOADE_DIR+'/temp/result/forecast_result.xlsx',index = False)
     data_result.to_csv(result_file_name,index = False)
     ##preview用データ保存
     #サーバー
@@ -86,8 +89,8 @@ def calculate(_col,date,predict,method,obj_option,session_id,q):
     #data_preview.to_excel('http://resort-travel.jp/stat_application/result/forecast_result_preview.xlsx',index = False)
     #data_preview.to_csv(result_file_name,index = False)
     #ローカル
-    result_file_name = './result/forecast_result_preview.csv'
-    data_preview.to_excel('./result/forecast_result_preview.xlsx',index = False)
+    result_file_name = UPLOADE_DIR+'/temp/result/forecast_result_preview.csv'
+    data_preview.to_excel(UPLOADE_DIR+'/temp/result/forecast_result_preview.xlsx',index = False)
     data_preview.to_csv(result_file_name,index = False)
     ##オリジナル+予測データ保存
     #サーバー
@@ -95,7 +98,7 @@ def calculate(_col,date,predict,method,obj_option,session_id,q):
     #data_preview.to_excel('./result/forecast_result_preview.xlsx',index = False)
     #data_ori.to_csv(result_file_name,index = False)
     #ローカル
-    result_file_name = './result/original_data.csv'
+    result_file_name = UPLOADE_DIR+'/temp/result/original_data.csv'
     #data_preview.to_excel('./result/forecast_result_preview.xlsx',index = False)
     data_ori.to_csv(result_file_name,index = False)
     

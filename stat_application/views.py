@@ -18,12 +18,13 @@ import random
 from . import forms as forms
 from . import calculate as cl
 from django import forms as fm_d
-UPLOADE_DIR = os.path.dirname(os.path.abspath(__file__)) + '/static/files/'
+#UPLOADE_DIR = os.path.dirname(os.path.abspath(__file__)) + '/static/files/'
+UPLOADE_DIR = os.path.dirname(os.path.abspath(__file__))
 #UPLOADE_DIR = 'http://resort-travel.jp/stat_application/result/'
 
 ###HOME画面のレンダリング
 def index(request):
-
+    print(request.session.session_key)
     return render(request, 'stat_application/index.html')
     
 #プログレスバー用の関数
@@ -48,11 +49,11 @@ def state_space(request):
         if file.name.split('.')[-1].lower() != 'csv':
             return render(request, 'stat_application/state_space.html')
         path = os.path.join(UPLOADE_DIR, file.name)
-        destination = open(path, 'wb')
+        #destination = open(path, 'wb')
         #Fileをアップロード先に保存
-        for chunk in file.chunks():
-            destination.write(chunk)
-        destination.close()
+        #for chunk in file.chunks():
+         #   destination.write(chunk)
+        #destination.close()
         #File名をサーバーに保存
         insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
         insert_data.save()
@@ -76,11 +77,11 @@ def sarima(request):
         if file.name.split('.')[-1].lower() != 'csv':
             return render(request, 'stat_application/sarima.html')
         path = os.path.join(UPLOADE_DIR, file.name)
-        destination = open(path, 'wb')
+        #destination = open(path, 'wb')
         #Fileをアップロード先に保存
-        for chunk in file.chunks():
-            destination.write(chunk)
-        destination.close()
+        #for chunk in file.chunks():
+          #  destination.write(chunk)
+        #destination.close()
         #File名をサーバーに保存
         insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
         insert_data.save()
@@ -98,28 +99,28 @@ def prophet(request):
     #通常時state_space.htmlを表示
     if request.method != 'POST':
         return render(request, 'stat_application/prophet.html')
-    try:
-        #ファイル取得し、データをcsv_dataに格納
-        file = request.FILES['file']
-        if file.name.split('.')[-1].lower() != 'csv':
-            return render(request, 'stat_application/prophet.html')
-        path = os.path.join(UPLOADE_DIR, file.name)
-        destination = open(path, 'wb')
-        #Fileをアップロード先に保存
-        for chunk in file.chunks():
-            destination.write(chunk)
-        destination.close()
-        #File名をサーバーに保存
-        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
-        insert_data.save()
-        #UUIDを付与
-        uuid = FileNameModel.objects.latest('upload_time')
-        #request.session['uuid'] = str(uuid.id)
-        insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet',session_id=request.session.session_key)
-        insert_data.save()
-        return redirect('stat_application:choice_column')   
-    except:
+    #try:
+    #ファイル取得し、データをcsv_dataに格納
+    file = request.FILES['file']
+    if file.name.split('.')[-1].lower() != 'csv':
         return render(request, 'stat_application/prophet.html')
+    path = os.path.join(UPLOADE_DIR, file.name)
+    #destination = open(path, 'wb')
+    #Fileをアップロード先に保存
+    #for chunk in file.chunks():
+     #   destination.write(chunk)
+    #destination.close()
+    #File名をサーバーに保存
+    insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
+    insert_data.save()
+    #UUIDを付与
+    uuid = FileNameModel.objects.latest('upload_time')
+    #request.session['uuid'] = str(uuid.id)
+    insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet',session_id=request.session.session_key)
+    insert_data.save()
+    return redirect('stat_application:choice_column')   
+    #except:
+    #return render(request, 'stat_application/prophet.html')
     
 ###RNNモデルのinput画面
 def rnn(request):   
@@ -132,11 +133,11 @@ def rnn(request):
         if file.name.split('.')[-1].lower() != 'csv':
             return render(request, 'stat_application/rnn.html')
         path = os.path.join(UPLOADE_DIR, file.name)
-        destination = open(path, 'wb')
+        #destination = open(path, 'wb')
         #Fileをアップロード先に保存
-        for chunk in file.chunks():
-            destination.write(chunk)
-        destination.close()
+        #for chunk in file.chunks():
+         #   destination.write(chunk)
+        #destination.close()
         #File名をサーバーに保存
         insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
         insert_data.save()
@@ -160,11 +161,11 @@ def multiple_regression(request):
         if file.name.split('.')[-1].lower() != 'csv':
             return render(request, 'stat_application/rnn.html')
         path = os.path.join(UPLOADE_DIR, file.name)
-        destination = open(path, 'wb')
+        #destination = open(path, 'wb')
         #Fileをアップロード先に保存
-        for chunk in file.chunks():
-            destination.write(chunk)
-        destination.close()
+        #for chunk in file.chunks():
+         #   destination.write(chunk)
+        #destination.close()
         #File名をサーバーに保存
         insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=request.session.session_key)
         insert_data.save()
@@ -302,10 +303,10 @@ def result(request):
     #AIC、BIC、HQIC等のモデルの評価指標を格納
     summary = SummaryModel.objects.filter(session_id =request.session.session_key).latest('upload_time')
     #予測値のみ
-    result_file_name = './result/forecast_result_preview.csv'
+    result_file_name = UPLOADE_DIR+'/temp/result/forecast_result_preview.csv'
     _data_predict = pd.read_csv(result_file_name, encoding='ms932')
     #オリジナル
-    result_file_name = './result/original_data.csv'
+    result_file_name = UPLOADE_DIR+'/temp/result/original_data.csv'
     _data_ori = pd.read_csv(result_file_name, encoding='ms932')
     
     #グラフ用予測部分だけ色を変えるために綺麗にする処理
