@@ -82,9 +82,9 @@ def calculate(_col,date,predict,method,obj_option,session_id):
 
     ###ファイル保存
     #サーバー
-    #result_file_name = 'http://resort-travel.jp/stat_application/result/forecast_result.csv'
-    #data_result.to_excel('http://resort-travel.jp/stat_application/result/forecast_result.xlsx',index = False)
-    #data_result.to_csv(result_file_name,index = False)
+    result_file_name = 'http://resort-travel.jp/stat_application/result/forecast_result.csv'
+    data_result.to_excel('http://resort-travel.jp/stat_application/result/forecast_result.xlsx',index = False)
+    data_result.to_csv(result_file_name,index = False)
     #ローカル
     result_file_name = UPLOADE_DIR+'/temp/result/forecast_result.csv'
     data_result.to_excel(UPLOADE_DIR+'/temp/result/forecast_result.xlsx',index = False)
