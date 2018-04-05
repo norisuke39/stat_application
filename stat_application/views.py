@@ -361,6 +361,7 @@ def result(request):
       'predict' : list(_data_predict['predict']),
       'holdout' : list(_data_predict_ho['predict']),
       'summary' : summary,
+       'path' : result_file_name,
     }  
     return render(request,'stat_application/result.html',data)
     
