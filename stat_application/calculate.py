@@ -18,8 +18,11 @@ from . import predict_method as pr
 
 UPLOADE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-def calculate(_col,date,predict,method,obj_option,session_id,q):
-
+def calculate(_col,date,predict,method,obj_option,session_id):
+    
+    #進捗バー用に0%をDBに格納
+    insert_data = ProgressModel(progress = 0)
+    insert_data.save()
     ##ファイル読み込み
     file = FileNameModel.objects.latest('id')
     #file = FileNameModel.objects.filter(session_id =session_id).latest('upload_time')
@@ -57,9 +60,7 @@ def calculate(_col,date,predict,method,obj_option,session_id,q):
         data_wk = _data.groupby(_col + list(_col_dat),as_index = False).sum().fillna(0)    
     else:
         data_wk = _data
-    print('hoge2')
-    q.put(10)
-    print('hoge3')
+        
     #insert_data = ProgressModel(progress = 10)
     #insert_data.save()
     #RNNモデル

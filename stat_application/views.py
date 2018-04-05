@@ -226,9 +226,6 @@ def choice_column(request):
     obj_choices = list(['hoge'])
     obj_predict = request.POST.getlist('df_predict') 
     obj_goal = request.POST.getlist('df_goal') 
-    #進捗バー用に0%をDBに格納
-    insert_data = ProgressModel(progress = 0)
-    insert_data.save()
     #データテーブル表示用
     #重回帰には日付がなく、画面上だと自動的にソートされてしまうので、強制的にindexを付与
     #indexは最後尾に付与されるため、先頭に持ってくるために面倒な処理
@@ -254,10 +251,12 @@ def choice_column(request):
         except:
             obj_constflag = 0
         obj_option = list([obj_holdout,obj_method,calc_model.model_ja,obj_constflag])
-        queue = mp.Queue()
-        p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,session_id,queue))
-        p.start()
-        return redirect('stat_application:progress')
+        #queue = mp.Queue()
+        #p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,session_id,queue))
+        #p.start()
+        result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session['uuid'],request.session.session_key)
+        return redirect('stat_application:result')
+        #return redirect('stat_application:progress')
     ###時系列予測の計算結果
     elif obj_predict:
         obj_holdout = request.POST['df_holdout']
@@ -300,13 +299,13 @@ def choice_column(request):
             obj_method = 'RNN'
             obj_option = list([obj_holdout,obj_predictspan,obj_seasonal,obj_method,calc_model.model_ja])
         #Ajaxでプログレスバーを非同期的に更新するため、マルチプロセッシング計算
-        queue = mp.Queue()
-        p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,session_id,queue))
-        #result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session['uuid'],request.session.session_key)
-        p.start()
-        insert_data = ProgressModel(progress = queue.get())
-        insert_data.save()
-        return redirect('stat_application:progress')
+        #queue = mp.Queue()
+        #p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,session_id,queue))
+        result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session['uuid'],request.session.session_key)
+        #p.start()
+        #temp = queue.get()
+        #return redirect('stat_application:progress')
+        return redirect('stat_application:result')
     else:
         data = {
             'input_data' : form,

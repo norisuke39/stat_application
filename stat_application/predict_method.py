@@ -270,7 +270,7 @@ def forecast_SARIMA(_data,_unique_list,_col,predict,option,session_id):
 
 ##状態空間モデル
 def forecast_state_space(_data,_unique_list,_col,predict,option,session_id):
-    print('hoge4')
+
     #変数まとめ
     estimate_method = option[3] #推定方法
     seasonal = int(option[2]) #シーズナル間隔
