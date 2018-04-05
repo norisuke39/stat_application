@@ -515,7 +515,7 @@ def forecast_mlr(_data,_col,predict,option,session_id):
     result = model.fit()
     result.summary()
     ##サマリをテキスト保存
-    f = open( UPLOADE_DIR +'temp/mlr/text/summary.txt', 'w' ) 
+    f = open( UPLOADE_DIR +'/temp/mlr/text/summary.txt', 'w' ) 
     f.write( str(result.summary()) ) 
     f.close()
 
@@ -525,7 +525,7 @@ def forecast_mlr(_data,_col,predict,option,session_id):
         Y_pre[i] = result.params[i]*X_all[i]
     pred_df = Y_pre.sum(axis = 1) + result.params[0]
 
-    insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout,session_id=session_id)
+    #insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout,session_id=session_id)
     insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout)
     insert_data.save()
 
