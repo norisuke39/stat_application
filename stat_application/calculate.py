@@ -108,7 +108,7 @@ def calculate(_col,date,predict,method,obj_option,session_id):
     #data_preview.to_excel('./result/forecast_result_preview.xlsx',index = False)
     data_ori.to_csv(result_file_name,index = False)
     
-    q.put([data_result,result_file_name])
+    #q.put([data_result,result_file_name])
     
     insert_data = ProgressModel(progress = 100)
     insert_data.save()
