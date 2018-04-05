@@ -188,8 +188,8 @@ def forecast_SARIMA(_data,_unique_list,_col,predict,option,session_id):
                                     modelSelection.iloc[num]['sd'] = sd
                                     modelSelection.iloc[num]['sq'] = sq
                                     num = num + 1
-                                    insert_data = ProgressModel(progress = 10+(num/pattern)*89)
-                                    insert_data.save()
+                                    #insert_data = ProgressModel(progress = 10+(num/pattern)*89)
+                                    #insert_data.save()
         else:
             p = int(parameta[0])
             d = int(parameta[1])

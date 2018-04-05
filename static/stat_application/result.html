@@ -1,0 +1,168 @@
+{% extends "stat_application/base.html" %}
+
+{% block title %}DataCooking{% endblock title %}
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">{{summary.model}}_シミュレーション結果</a>
+        </li>
+      </ol>
+      <!--Simulation Result display -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-chart-line"></i> Result Area</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <!-- モデルの評価 -->
+            <table class = "table">
+            <tbody class = "orange">
+                <tr>
+                    <font color = "orange">Summary</font>
+                    <td><b>Method</b>：{{summary.method}}</td>
+                    {% if summary.model == 'SARIMAモデル' or summary.model == '状態空間モデル' %}
+                    <td><b>AIC</b>：{{summary.aic}}</td>
+                    <td><b>BIC</b>：{{summary.bic}}</td>
+                    <td><b>HQIC</b>：{{summary.hqic}}</td>
+                    {% endif %}
+                    {% if summary.model == 'SARIMAモデル' %}
+                    <td><b>p</b>：{{summary.p}}　<b>d</b>：{{summary.d}}　<b>q</b>：{{summary.q}}　<b>sp</b>：{{summary.sp}}　<b>sd</b>：{{summary.sd}}　<b>sq</b>：{{summary.sq}}</td>
+                    {% endif %}
+                    {% if summary.model == '重回帰モデル'%}
+                    <td><b>AIC</b>：{{summary.aic}}</td>
+                    <td><b>BIC</b>：{{summary.bic}}</td>
+                    <td><b>R^2</b>：{{summary.rsq}}</td>
+                    <td><b>自由度調整済みR^2</b>：{{summary.rsq_adj}}</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+            </table>
+                <canvas id="PredictChart" width="100%" height="30"></canvas>         
+            <!-- chart.jsの描画部分 -->            
+            <script>
+            {% autoescape off %}
+            var date = {{date}};
+            var original = {{original}};
+            var predict = {{predict}};
+            var holdout = {{holdout}};
+             {% endautoescape %}
+            var ctx = document.getElementById("PredictChart");
+            var myLineChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: date,//x軸の入力
+                datasets: [{
+                  label: "Original",
+                  lineTension: 0,
+                  fill:false,
+                  borderColor: "rgba(2,117,216,1)",
+                  pointRadius: 3,
+                  pointBackgroundColor: "rgba(2,117,216,1)",
+                  pointBorderColor: "rgba(255,255,255,0.8)",
+                  pointHitRadius: 20,
+                  pointBorderWidth: 2,                  
+                  data: original,//y軸の入力
+                },
+                 {label: "Predict",
+                  lineTension: 0,
+                  fill:false,
+                  borderColor: "rgba(124,252,0,1)",
+                  pointRadius: 3,
+                  pointBackgroundColor: "rgba(124,252,0,1)",
+                  pointBorderColor: "rgba(255,255,255,0.8)",
+                  pointHitRadius: 20,
+                  pointBorderWidth: 2,                  
+                  data: predict,//y軸の入力
+                },
+                   {% if summary.model == '重回帰モデル' %}
+                  {
+                  label: "Holdout",
+                  lineTension: 0,
+                  fill:false,
+                  borderColor: "rgba(255,0,0,1)",
+                  pointRadius: 3,
+                  pointBackgroundColor: "rgba(255,0,0,1)",
+                  pointBorderColor: "rgba(255,255,255,0.8)",
+                  pointHitRadius: 20,
+                  pointBorderWidth: 2,                  
+                  data: holdout,//y軸の入力
+                },
+                   {%endif%}
+                          ],
+              },
+              options: {
+                scales: {
+                  xAxes: [{
+                    time: {
+                      unit: 'date',
+                    },
+                    gridLines: {
+                      display: true,
+                       color : "rgba(255,255,255,0.2)"
+                    },
+                    ticks: {
+                      //maxTicksLimit: 100
+                    }
+                  }],
+                yAxes:[{
+                gridLines: {
+                display: true,
+                color : "rgba(255,255,255,0.2)"
+                },
+                }],
+                },
+                legend: {
+                  display: true
+                }
+              }
+            });   
+            </script>
+          </div>
+      </div>
+  </div>
+        
+      <!-- Example DataTables Card-->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Predict Data Preview</div>
+        <div class="card-body">
+          <div class="table-responsive">
+          <!-- ダウンロードボタン -->
+            <table class = "table">
+            <tbody>
+                <tr>
+                <font color = "orange">Download</font>
+                    <td>
+            <a href="http://resort-travel.jp/stat_application/result/forecast_result.csv" download="forecast_result.csv"><button type="" class="btn btn-primary" value="download" name = "download">
+                <i class="fas fa-download"></i> CSV File Download</button></a></td>
+                </tr>
+            </tbody>
+            </table>
+              
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+               <thead>
+                    <tr style = "color:orange">                    
+                    {% for column in header %}
+                  <th>{{column}}</th>
+                {%endfor%}
+                </tr>
+              </thead>
+              <tbody>
+              {% for data_row in data_preview %}
+                <tr>
+                    {%for data in data_row %}
+                  <td>{{data}}</td>
+                    {%endfor%}
+                </tr>
+              {%endfor%}
+            </table>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Updated {{suumary.upload_time}}</div>
+      </div>
+    </div>
+
+{% endblock content %}

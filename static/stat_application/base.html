@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- iconj.com favicon code -->
+  <link rel="shortcut icon" href="http://www.iconj.com/icon.php?pid=k8g55s5vwk" type="image/x-icon" /> 
+  <!-- end of iconj.com favicon code -->
+  <title>DataCooking</title>
+    {% load static %}
+  <!-- Bootstrap core CSS-->
+  <link href="{% static 'stat_application/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <!-- Page level plugin CSS-->
+  <link href="{% static 'stat_application/vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="{% static 'stat_application/css/sb-admin.css' %}" rel="stylesheet">
+  <link href="{% static 'stat_application/vendor/dropify/css/dropify.min.css' %}" rel="stylesheet">
+    
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+　<script src="{% static 'stat_application/vendor/dropify/js/dropify.min.js' %}"></script>
+<script src="https://cdn.rawgit.com/sindu12jun/table-dragger/dev/dist/table-dragger.min.js"></script>
+        　<script src="{% static 'stat_application/vendor/chart.js/Chart.min.js' %}"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/juniskw/django_tools/master/csrf_token_ajax.js"></script>
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="{% url 'stat_application:index' %}">Data<font color = "orange">Cooking</font></a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="{% url 'stat_application:index' %}">
+            <i class="fas fa-desktop"></i>
+            <span class="nav-link-text">HOME</span>
+          </a>
+        </li>
+          
+                  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components1">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents1" data-parent="#exampleAccordion">
+            <i class="fas fa-chess-board"></i>
+            <span class="nav-link-text">回帰予測</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents1">
+            <li>
+              <a href="{% url 'stat_application:multiple_regression' %}">重回帰予測</a>
+            </li>
+          </ul>
+        </li>
+          
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components1">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents2" data-parent="#exampleAccordion">
+            <i class="fas fa-chart-bar"></i>
+            <span class="nav-link-text">時系列予測</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents2">
+            <li>
+              <a href="{% url 'stat_application:sarima' %}">SARIMAモデル</a>
+            </li>
+            <li>
+              <a href="{% url 'stat_application:state_space' %}">状態空間モデル</a>
+            </li>
+              <li>
+              <a href="{% url 'stat_application:prophet' %}">Prophetモデル</a>
+            </li>
+            <li>
+              <a href="{% url 'stat_application:rnn' %}">RNNモデル</a>
+            </li>
+              <li>
+              <a href="{% url 'stat_application:index' %}">LSTMモデル(現在勉強中)</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components2">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents3" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-sitemap"></i>
+            <span class="nav-link-text">分類予測</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents3">
+            <li>
+              <a href="decision_tree.html">決定木分類(現在作成中)</a>
+            </li>
+            <li>
+              <a href="random_forest.html">ランダムフォレスト(現在作成中)</a>
+            </li>
+            <li>
+              <a href="logistic.html">ロジスティック回帰モデル(現在作成中)</a>
+            </li>
+          </ul>
+        </li>
+          <!-- ↓ログイン画面や登録画面へのリンクのサイドバー要素-->
+          
+      <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-file"></i>
+            <span class="nav-link-text">navi-link</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
+            <li>
+              <a href="login.html">Login Page</a>
+            </li>
+            <li>
+              <a href="register.html">Registration Page</a>
+            </li>
+            <li>
+              <a href="forgot-password.html">Forgot Password Page</a>
+            </li>
+            <li>
+              <a href="blank.html">Blank Page</a>
+            </li>
+          </ul>
+        </li> -->
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+          <a class="nav-link" href="#">
+            <i class="fa fa-fw fa-link"></i>
+            <span class="nav-link-text">Link</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+          
+        <!-- <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+        </li> -->
+      </ul>
+    </div>
+  </nav>
+      <!-- 右側のエリアのデザイン Start-->
+        {% block content %}
+        {{content}}
+        {% endblock %}
+      <!-- 右側のエリアのデザイン End-->
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Copyright © DataCooking 2018</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+        　<script src="{% static 'stat_application/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Core plugin JavaScript-->
+        　<script src="{% static 'stat_application/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!-- Page level plugin JavaScript-->
+        　<script src="{% static 'stat_application/vendor/datatables/jquery.dataTables.js' %}"></script>
+        　<script src="{% static 'stat_application/vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+    <!-- Custom scripts for all pages-->
+     <script src="{% static 'stat_application/js/sb-admin.min.js' %}"></script>
+    <!-- Custom scripts for this page-->
+     <script src="{% static 'stat_application/js/sb-admin-datatables.min.js' %}"></script>
+     <script src="{% static 'stat_application/js/sb-admin-chart.min.js' %}"></script>
+      <!-- Font-Awesome-->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+   <script src="https://cdn.jsdelivr.net/jquery.loadingoverlay/latest/loadingoverlay.min.js"></script>
+  <script> 
+      //Ajaxのスクリプト
+      $("#start").one("load",function(){
+          setInterval(ajax,3000);//1秒間隔で非同期通信を実行
+          function ajax(){
+            $.ajax({
+            'url':'/progress/',
+            'type':'POST',
+            //'dataType':'json',
+            }).done(function(response){ //成功した場合はプログレスバーを更新
+            $('#result_bar').html("<div class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='"+response.progress+"' aria-valuemin='0' aria-valuemax='100' style='width: "+response.progress +"%'>"+response.progress+"%</div>");
+                if(response.progress == 100){//計算終了(プログレスの値が100になったらresultページへリダイレクト)
+                    setTimeout(function(){
+                window.location.href = "/result/";
+                    },1500);
+                }
+            }).fail(function(response){//失敗した場合はアラートを表示
+                alert("fail");  
+            });
+        }; 
+        return false;
+    }).load();
+    </script>
+</body>
+
+</html>
