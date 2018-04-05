@@ -25,7 +25,41 @@
 　<script src="{% static 'stat_application/vendor/dropify/js/dropify.min.js' %}"></script>
 <script src="https://cdn.rawgit.com/sindu12jun/table-dragger/dev/dist/table-dragger.min.js"></script>
         　<script src="{% static 'stat_application/vendor/chart.js/Chart.min.js' %}"></script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/juniskw/django_tools/master/csrf_token_ajax.js"></script>
+    <script>
+    /*- DjangoのAjax通信用スクリプト*/
+/*- This program is from 'http://docs.djangoproject.jp/en/latest/ref/contrib/csrf.html?highlight=csrf#ajax' -*/
+$(document).ajaxSend(function(event, xhr, settings) {
+	function getCookie(name) {
+		var cookieValue = null;
+		if (document.cookie && document.cookie != '') {
+			var cookies = document.cookie.split(';');
+			for (var i = 0; i < cookies.length; i++) {
+				var cookie = $.trim(cookies[i]);
+				if (cookie.substring(0, name.length + 1) == (name + '=')) {
+					cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+					break;
+				}
+			}
+		}
+		return cookieValue;
+	}
+	function sameOrigin(url) {
+		var host = document.location.host;
+		var protocol = document.location.protocol;
+		var sr_origin = '//' + host;
+		var origin = protocol + sr_origin;
+		return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+			(url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+			!(/^(\/\/|http:|https:).*/.test(url));
+	}
+	function safeMethod(method) {
+		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
+	if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+		xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+	}
+});
+</script>
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -194,7 +228,7 @@
    <script src="https://cdn.jsdelivr.net/jquery.loadingoverlay/latest/loadingoverlay.min.js"></script>
   <script> 
       //Ajaxのスクリプト
-      /*$("#start").one("load",function(){
+      $("#start").one("load",function(){
           setInterval(ajax,3000);//1秒間隔で非同期通信を実行
           function ajax(){
             $.ajax({
@@ -213,7 +247,7 @@
             });
         }; 
         return false;
-    }).load();*/
+    }).load();
     </script>
 </body>
 

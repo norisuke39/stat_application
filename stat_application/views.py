@@ -3,6 +3,7 @@ import csv
 import time
 from multiprocessing import Process
 import multiprocessing as mp
+import threading as th
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
@@ -125,7 +126,7 @@ def prophet(request):
     uuid = FileNameModel.objects.latest('upload_time')
     #request.session['uuid'] = str(uuid.id)
     #insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet',session_id=session_id)
-    #insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet')
+    insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet')
     insert_data.save()
     return redirect('stat_application:choice_column')   
     #except:
@@ -301,11 +302,12 @@ def choice_column(request):
         #Ajaxでプログレスバーを非同期的に更新するため、マルチプロセッシング計算
         #queue = mp.Queue()
         #p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,session_id,queue))
-        result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session.session_key)
-        #p.start()
+        p = th.Thread(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,session_id))
+        #result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session.session_key)
+        p.start()
         #temp = queue.get()
-        #return redirect('stat_application:progress')
-        return redirect('stat_application:result')
+        return redirect('stat_application:progress')
+        #return redirect('stat_application:result')
     else:
         data = {
             'input_data' : form,

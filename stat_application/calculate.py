@@ -61,8 +61,8 @@ def calculate(_col,date,predict,method,obj_option,session_id):
     else:
         data_wk = _data
         
-    #insert_data = ProgressModel(progress = 10)
-    #insert_data.save()
+    insert_data = ProgressModel(progress = 10)
+    insert_data.save()
     #RNNモデル
     if method == 'rnn':
         data_result,data_preview,data_ori = pr.forecast_rnn(data_wk,_unique_list,_col,predict,obj_option,session_id)
