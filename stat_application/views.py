@@ -254,7 +254,7 @@ def choice_column(request):
         #queue = mp.Queue()
         #p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,session_id,queue))
         #p.start()
-        result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session['uuid'],request.session.session_key)
+        result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session.session_key)
         return redirect('stat_application:result')
         #return redirect('stat_application:progress')
     ###時系列予測の計算結果
@@ -301,7 +301,7 @@ def choice_column(request):
         #Ajaxでプログレスバーを非同期的に更新するため、マルチプロセッシング計算
         #queue = mp.Queue()
         #p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,session_id,queue))
-        result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session['uuid'],request.session.session_key)
+        result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session.session_key)
         #p.start()
         #temp = queue.get()
         #return redirect('stat_application:progress')
