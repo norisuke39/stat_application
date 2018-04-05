@@ -125,7 +125,7 @@ def prophet(request):
     uuid = FileNameModel.objects.latest('upload_time')
     #request.session['uuid'] = str(uuid.id)
     #insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet',session_id=session_id)
-    insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet')
+    #insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet')
     insert_data.save()
     return redirect('stat_application:choice_column')   
     #except:
@@ -155,7 +155,7 @@ def rnn(request):
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
         #request.session['uuid'] = str(uuid.id)
-        insert_data = MethodModel(model_ja = 'RNNモデル',model_en = 'rnn',session_id=session_id)
+        #insert_data = MethodModel(model_ja = 'RNNモデル',model_en = 'rnn',session_id=session_id)
         insert_data = MethodModel(model_ja = 'RNNモデル',model_en = 'rnn')
         insert_data.save()
         return redirect('stat_application:choice_column')   
@@ -171,7 +171,7 @@ def multiple_regression(request):
         #ファイル取得し、データをcsv_dataに格納
         file = request.FILES['file']
         if file.name.split('.')[-1].lower() != 'csv':
-            return render(request, 'stat_application/rnn.html')
+            return render(request, 'stat_application/multiple_regression.html')
         path = os.path.join(UPLOADE_DIR, file.name)
         session_id = request.session.session_key
         #destination = open(path, 'wb')
@@ -186,7 +186,7 @@ def multiple_regression(request):
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
         #request.session['uuid'] = str(uuid.id)
-        insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=session_id)
+        #insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=session_id)
         insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr')
         insert_data.save()
         return redirect('stat_application:choice_column')   
@@ -321,12 +321,12 @@ def result(request):
     #AIC、BIC、HQIC等のモデルの評価指標を格納
     #summary = SummaryModel.objects.filter(session_id =session_id).latest('upload_time')
     summary = SummaryModel.objects.latest('id')
-    #予測値のみ
-    result_file_name = UPLOADE_DIR+'/temp/result/forecast_result_preview.csv'
-    _data_predict = pd.read_csv(result_file_name, encoding='ms932')
     #オリジナル
     result_file_name = UPLOADE_DIR+'/temp/result/original_data.csv'
     _data_ori = pd.read_csv(result_file_name, encoding='ms932')
+    #予測値のみ
+    result_file_name = UPLOADE_DIR+'/temp/result/forecast_result_preview.csv'
+    _data_predict = pd.read_csv(result_file_name, encoding='ms932')
     
     #グラフ用予測部分だけ色を変えるために綺麗にする処理
     if summary.model != '重回帰モデル':
