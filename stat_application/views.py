@@ -24,7 +24,7 @@ UPLOADE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 ###HOME画面のレンダリング
 def index(request):
-    print(request.session.session_key)
+
     return render(request, 'stat_application/index.html')
     
 #プログレスバー用の関数
@@ -304,6 +304,8 @@ def choice_column(request):
         p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,session_id,queue))
         #result,result_file_name = cl.calculate(obj_choices,obj_date,obj_predict,calc_model.model_en,obj_option,request.session['uuid'],request.session.session_key)
         p.start()
+        insert_data = ProgressModel(progress = queue.get())
+        insert_data.save()
         return redirect('stat_application:progress')
     else:
         data = {
