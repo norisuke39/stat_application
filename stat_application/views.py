@@ -58,7 +58,7 @@ def state_space(request):
         #destination.close()
         #File名をサーバーに保存
         #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=session_id)
-        insert_data = FileNameModel(file_name = file.name,file_obj = file)
+        insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id = 'hoge')
         insert_data.save()
         #UUIDを付与
         uuid = FileNameModel.objects.latest('upload_time')
