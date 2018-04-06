@@ -25,7 +25,7 @@ UPLOADE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 ###HOME画面のレンダリング
 def index(request):
-
+    print(request.session.session_key)
     return render(request, 'stat_application/index.html')
     
 #プログレスバー用の関数

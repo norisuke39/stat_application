@@ -13,7 +13,7 @@ class FileNameModel(models.Model):
     upload_time = models.DateTimeField(default = datetime.now)
     #file_obj = models.FileField(upload_to = 'statistical_processing/static/files/')
     file_obj = models.FileField(upload_to = 'stat_application/temp/files/')
-    #session_id = models.CharField(max_length = 50)
+    session_id = models.CharField(max_length = 50)
     
 class MethodModel(models.Model):
     #id = models.UUIDField(primary_key=True)
