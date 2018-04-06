@@ -3,7 +3,7 @@
 {% block title %}Data Simple Analyzer{% endblock title %}
 {% block content %}  
 
-<div class="content-wrapper">
+<div class="content-wrapper" id="image">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
@@ -11,11 +11,19 @@
           <a href="#">HOME</a>
         </li>
       </ol>
+        <div id="title"><a class="navbar-brand" style="color:#FFFFFF;font-size:50pt;">Data<font color = "orange">Cooking</font></a>
+        <ol style="color:#FFFFFF;font-size:25pt;">
+            <li>モデルを選択</li>
+            <li>データをUP</li>
+            <li>オプションを選択</li>
+            </ol>
+            <a style="color:orange;font-size:40pt;">誰でも簡単に使えるデータモデリングアプリ</a>
+        </div>
         <!--使用方法 -->
+           <!--{% load static %}
         <div class="card mb-3">
             <div class="card-header">
         <i class="fas fa-question-circle"></i> 使用方法</div>
-                {% load static %}
             <div class="card-body">
                 <ol style = "color:#FFFFFF">
                     <li>左の項目からモデルを選択</li>
@@ -24,9 +32,9 @@
                     <li>シミュレーション結果がグラフに！</li>
                 </ol>
             </div>
-        </div>
+        </div>-->
         <!--説明概要 -->
-        <div class="card mb-3">
+        <!--<div class="card mb-3">
             <div class="card-header">
         <i class="fas fa-question-circle"></i> What's This!?</div>
             <div class="card-body">
@@ -41,7 +49,7 @@
                 <ul style = "color:#FFFFFF"><li>データサイエンス入門者〜中級者</li></ul>
                 <br>※本アプリケーションで作成されたシミュレーション結果に対して、一切の責任を持ちません。ご了承ください。
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
     {% endblock content %}
