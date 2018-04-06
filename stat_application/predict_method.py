@@ -236,7 +236,7 @@ def forecast_SARIMA(_data,_unique_list,_col,predict,option,session_id):
         bic = round(bestSARIMA.bic,3)
         hqic = round(bestSARIMA.hqic,3)
         #insert_data = SummaryModel(id = uuid,model = option[4],aic = aic, bic = bic,hqic = hqic,p=p,d=d,q=q,sp=sp,sd=sd,sq=sq,method = estimate_method,session_id=session_id)
-        insert_data = SummaryModel(id = uuid,model = option[4],aic = aic, bic = bic,hqic = hqic,p=p,d=d,q=q,sp=sp,sd=sd,sq=sq,method = estimate_method)
+        insert_data = SummaryModel(model = option[4],aic = aic, bic = bic,hqic = hqic,p=p,d=d,q=q,sp=sp,sd=sd,sq=sq,method = estimate_method)
         insert_data.save()
 
         #予測
