@@ -106,31 +106,31 @@ def prophet(request):
     #通常時state_space.htmlを表示
     if request.method != 'POST':
         return render(request, 'stat_application/prophet.html')
-    #try:
-    #ファイル取得し、データをcsv_dataに格納
-    file = request.FILES['file']
-    if file.name.split('.')[-1].lower() != 'csv':
+    try:
+        #ファイル取得し、データをcsv_dataに格納
+        file = request.FILES['file']
+        if file.name.split('.')[-1].lower() != 'csv':
+            return render(request, 'stat_application/prophet.html')
+        path = os.path.join(UPLOADE_DIR, file.name)
+        session_id = request.session.session_key
+        #destination = open(path, 'wb')
+        #Fileをアップロード先に保存
+        #for chunk in file.chunks():
+         #   destination.write(chunk)
+        #destination.close()
+        #File名をサーバーに保存
+        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=session_id)
+        insert_data = FileNameModel(file_name = file.name,file_obj = file)
+        insert_data.save()
+        #UUIDを付与
+        uuid = FileNameModel.objects.latest('upload_time')
+        #request.session['uuid'] = str(uuid.id)
+        #insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet',session_id=session_id)
+        insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet')
+        insert_data.save()
+        return redirect('stat_application:choice_column')   
+    except:
         return render(request, 'stat_application/prophet.html')
-    path = os.path.join(UPLOADE_DIR, file.name)
-    session_id = request.session.session_key
-    #destination = open(path, 'wb')
-    #Fileをアップロード先に保存
-    #for chunk in file.chunks():
-     #   destination.write(chunk)
-    #destination.close()
-    #File名をサーバーに保存
-    #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=session_id)
-    insert_data = FileNameModel(file_name = file.name,file_obj = file)
-    insert_data.save()
-    #UUIDを付与
-    uuid = FileNameModel.objects.latest('upload_time')
-    #request.session['uuid'] = str(uuid.id)
-    #insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet',session_id=session_id)
-    insert_data = MethodModel(model_ja = 'Prophetモデル',model_en = 'prophet')
-    insert_data.save()
-    return redirect('stat_application:choice_column')   
-    #except:
-    #return render(request, 'stat_application/prophet.html')
     
 ###RNNモデルのinput画面
 def rnn(request):   
