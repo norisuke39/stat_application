@@ -14,7 +14,6 @@ class FileNameModel(models.Model):
     #file_obj = models.FileField(upload_to = 'statistical_processing/static/files/')
     file_obj = models.FileField(upload_to = 'stat_application/temp/files/')
     #session_id = models.CharField(max_length = 50)
-    a = models.IntegerField(default = 0)
     
 class MethodModel(models.Model):
     #id = models.UUIDField(primary_key=True)
