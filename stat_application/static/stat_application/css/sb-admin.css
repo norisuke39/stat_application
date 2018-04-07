@@ -287,9 +287,9 @@ body.sidenav-toggled #mainNav.static-top #sidenavToggler i {
   background: #000000;
 }
 
- #image{
+#image {
   overflow-x: hidden;
-background-image: url("../background.jpg");
+background-image: url("background.jpg");
      background-size:cover;
 }
 
@@ -489,5 +489,5 @@ footer.sticky-footer {
   position: relative;
   margin: auto;
   text-align: center;
-  top: 150px;
+  top: 200px;
 }
