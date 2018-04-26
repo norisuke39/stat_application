@@ -49,7 +49,6 @@ def forecast_prophet(_data,_unique_list,_col,predict,option,session_id):
     
     for row in _unique_list:
         model = Prophet(growth = growth,yearly_seasonality = seasonality)
-        model = Prophet()
 
         ###選択された粒度ごとで計算
         mask = np.array(_data[_col]) == row
