@@ -48,7 +48,7 @@ def forecast_prophet(_data,_unique_list,_col,predict,option,session_id):
     data_ori = pd.DataFrame(columns = [])
     
     for row in _unique_list:
-        model = Prophet(growth = 'linear',yearly_seasonality = seasonality)
+        model = Prophet(growth = growth,yearly_seasonality = seasonality)
         model = Prophet()
 
         ###選択された粒度ごとで計算
