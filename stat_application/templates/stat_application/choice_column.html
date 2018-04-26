@@ -138,10 +138,8 @@
             </table>
             <table class = "table">
             <tbody>
-                <tr><strong style = "color:orange">キャップ(上限)をかける：</strong>
-                     {% for capflag in input_data.df_flag%}
-                     <td>{{capflag}}</td>
-                     {% endfor %}
+                <tr><strong style = "color:orange">非線形のオプション：</strong>
+
                     <td>キャップの上限：{{input_data.df_cap}}</td>
                     {% endif %}
                     {% if model.model_en == 'rnn'%}
@@ -196,37 +194,14 @@
                 btn1.setAttribute('disabled', 'disabled');     
                 }
                 }
-                /*Prophet：キャップをかけるか*/
-                function checkCapValue(check){
-                var btn2 = document.getElementById('id_df_cap');
-                var capflag = 0;
-                $('input[name="df_flag"]:checked').each(function() {
-                capflag = $(this).prop('checked');   
-                })
-                if (capflag) {
-                btn2.removeAttribute('disabled');
-                } else {
-                btn2.setAttribute('disabled', 'disabled');
-                }
-                }
-                /*Prophet：キャップをかけるか(線形or非線形でも確認)*/
+                /*Prophet：キャップをかけるか(線形or非線形で確認)*/
                 function selectValueProphet(check){
-                var btn3 = document.getElementById('id_df_flag_0');
                 var btn4 = document.getElementById('id_df_cap');
-                var capflag = 0;
                 var method;
-                $('input[name="df_flag"]:checked').each(function() {
-                capflag = $(this).prop('checked');   
-                })
                 $('[name="df_prophet_method"] option:selected').each(function() {
                 method = $(this).val();
                 })
                 if(method == "logistic"){
-                    btn3.removeAttribute('disabled');
-                }else{
-                    btn3.setAttribute('disabled', 'disabled');
-                }
-                if(method == "logistic" && capflag){
                     btn4.removeAttribute('disabled');
                 }else{
                     btn4.setAttribute('disabled', 'disabled');

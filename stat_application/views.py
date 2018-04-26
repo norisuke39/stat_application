@@ -288,7 +288,8 @@ def choice_column(request):
             obj_date_unit = request.POST['df_date_unit']
             #キャップフラグが選択されれば、フラグを格納
             try:
-                obj_capflag = request.POST['df_flag']
+                #obj_capflag = request.POST['df_flag']
+                obj_capflag = True
                 obj_cap = request.POST['df_cap']
             except:
                 obj_capflag = False

@@ -75,7 +75,7 @@ def forecast_prophet(_data,_unique_list,_col,predict,option,session_id):
             temp = [_date + datetime.timedelta(hours = t) for t in range(predict_span)]
             _date = pd.DataFrame(pd.to_datetime(temp,format = '%Y-%m-%d %H'),columns = ['date'])
         _date = _date.append(_date_ori).sort_values('date',ascending = True).reset_index()
-        cap =_data_sum[predict].median() * 3
+        #cap =_data_sum[predict].median() * 3
 
         #_data_pr['ds'] = _data_sum['Y-M'].dropna()
         
