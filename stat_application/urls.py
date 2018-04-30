@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^multiple_regression.html', views.multiple_regression, name = 'multiple_regression'),
     url(r'^choice_column/', views.choice_column, name = 'choice_column'),
     url(r'^result/', views.result, name = 'result'),
+    url(r'^contact.html', views.contact, name = 'contact'),
 ]

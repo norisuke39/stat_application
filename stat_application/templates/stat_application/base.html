@@ -5,12 +5,22 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="description" content="プログラミング不要で時系列予測、回帰予測ができるWEBアプリです！方法は簡単で、ファイルをアップして項目を選択するだけ！現在は重回帰予測、状態空間モデル、SARIMAモデル、Prophetモデル、RNNモデルまでを実装。">
+  <meta name="keywords" content="時系列予測,回帰予測,重回帰,状態空間,ARIMA,Prophet,RNN">
+  <link rel="canonical" href="https://datacooking.com/">
+  <meta name="author" content="S.Takanori">
+  <meta property="og:site_name" content="DataCooking" />
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://datacooking.com" />
+  <meta property="og:title" content="時系列予測ツール ファイルをアップして項目を選択するだけ！| DataCooking" />
+  <meta property="og:description" content="プログラミング不要で時系列予測、回帰予測ができるWEBアプリです！方法は簡単で、ファイルをアップして項目を選択するだけ！現在は重回帰予測、状態空間モデル、SARIMAモデル、Prophetモデル、RNNモデルまでを実装。">
+   <meta name="twitter:card" content="summary">
+   <meta name="twitter:site" content="https://datacooking.com">
+   <meta name="twitter:image" content="ogpのURL貼る">
   <!-- iconj.com favicon code -->
   <link rel="shortcut icon" href="http://www.iconj.com/icon.php?pid=k8g55s5vwk" type="image/x-icon" /> 
   <!-- end of iconj.com favicon code -->
-  <title>DataCooking</title>
+  <title>時系列予測ツール ファイルをアップして項目を選択するだけ！| DataCooking</title>
     {% load static %}
   <!-- Bootstrap core CSS-->
   <link href="{% static 'stat_application/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -120,13 +130,13 @@ $(document).ajaxSend(function(event, xhr, settings) {
           </a>
           <ul class="sidenav-second-level collapse" id="collapseComponents3">
             <li>
-              <a href="decision_tree.html">決定木分類(現在作成中)</a>
+              <a href="{% url 'stat_application:index' %}">決定木分類(現在作成中)</a>
             </li>
             <li>
-              <a href="random_forest.html">ランダムフォレスト(現在作成中)</a>
+              <a href="{% url 'stat_application:index' %}">ランダムフォレスト(現在作成中)</a>
             </li>
             <li>
-              <a href="logistic.html">ロジスティック回帰モデル(現在作成中)</a>
+              <a href="{% url 'stat_application:index' %}">ロジスティック回帰モデル(現在作成中)</a>
             </li>
           </ul>
         </li>
@@ -152,10 +162,10 @@ $(document).ajaxSend(function(event, xhr, settings) {
             </li>
           </ul>
         </li> -->
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
-          <a class="nav-link" href="#">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Contact">
+          <a class="nav-link" href="{% url 'stat_application:contact' %}">
             <i class="fa fa-fw fa-link"></i>
-            <span class="nav-link-text">Link</span>
+            <span class="nav-link-text">Contact</span>
           </a>
         </li>
       </ul>
@@ -226,29 +236,14 @@ $(document).ajaxSend(function(event, xhr, settings) {
       <!-- Font-Awesome-->
   <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
    <script src="https://cdn.jsdelivr.net/jquery.loadingoverlay/latest/loadingoverlay.min.js"></script>
-  <script> 
-      //Ajaxのスクリプト
-      $("#start").one("load",function(){
-          setInterval(ajax,3000);//1秒間隔で非同期通信を実行
-          function ajax(){
-            $.ajax({
-            'url':'/progress/',
-            'type':'POST',
-            //'dataType':'json',
-            }).done(function(response){ //成功した場合はプログレスバーを更新
-            $('#result_bar').html("<div class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='"+response.progress+"' aria-valuemin='0' aria-valuemax='100' style='width: "+response.progress +"%'>"+response.progress+"%</div>");
-                if(response.progress == 100){//計算終了(プログレスの値が100になったらresultページへリダイレクト)
-                    setTimeout(function(){
-                window.location.href = "/result/";
-                    },1500);
-                }
-            }).fail(function(response){//失敗した場合はアラートを表示
-                alert("fail");  
-            });
-        }; 
-        return false;
-    }).load();
-    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-85460805-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-85460805-5');
+</script>
 </body>
 
 </html>
