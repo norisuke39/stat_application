@@ -97,6 +97,15 @@ $(document).ajaxSend(function(event, xhr, settings) {
             <li>
               <a href="{% url 'stat_application:multiple_regression' %}">重回帰予測</a>
             </li>
+              <li>
+              <a href="{% url 'stat_application:decision_tree_r' %}">決定木(回帰)</a>
+            </li>
+              <li>
+              <a href="{% url 'stat_application:random_forest_r' %}">ランダムフォレスト(回帰)</a>
+            </li>
+            <li>
+              <a href="{% url 'stat_application:xgboost_r' %}">XGBoost(回帰)</a>
+            </li>
           </ul>
         </li>
           
@@ -130,10 +139,13 @@ $(document).ajaxSend(function(event, xhr, settings) {
           </a>
           <ul class="sidenav-second-level collapse" id="collapseComponents3">
             <li>
-              <a href="{% url 'stat_application:index' %}">決定木分類(現在作成中)</a>
+              <a href="{% url 'stat_application:decision_tree_c' %}">決定木(分類)</a>
             </li>
             <li>
-              <a href="{% url 'stat_application:index' %}">ランダムフォレスト(現在作成中)</a>
+              <a href="{% url 'stat_application:random_forest_c' %}">ランダムフォレスト(分類)</a>
+            </li>
+              <li>
+              <a href="{% url 'stat_application:xgboost_c' %}">XGBoost(分類)</a>
             </li>
             <li>
               <a href="{% url 'stat_application:index' %}">ロジスティック回帰モデル(現在作成中)</a>

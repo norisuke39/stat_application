@@ -167,7 +167,7 @@ def rnn(request):
     except:
         return render(request, 'stat_application/rnn.html')
     
-    ###MultipleRegressionモデルのinput画面
+###MultipleRegressionモデルのinput画面
 def multiple_regression(request):   
     #通常時state_space.htmlを表示
     if request.method != 'POST':
@@ -197,6 +197,168 @@ def multiple_regression(request):
         return redirect('stat_application:choice_column')   
     except:
         return render(request, 'stat_application/multiple_regression.html')
+    
+###DicisionTree(分類)モデルのinput画面
+def decision_tree_c(request):   
+    #通常時state_space.htmlを表示
+    if request.method != 'POST':
+        return render(request, 'stat_application/decision_tree_c.html')
+    try:
+        #ファイル取得し、データをcsv_dataに格納
+        file = request.FILES['file']
+        if file.name.split('.')[-1].lower() != 'csv':
+            return render(request, 'stat_application/decision_tree_c.html')
+        path = os.path.join(UPLOADE_DIR, file.name)
+        session_id = request.session.session_key
+
+        #File名をサーバーに保存
+        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=session_id)
+        insert_data = FileNameModel(file_name = file.name,file_obj = file)
+        insert_data.save()
+        #UUIDを付与
+        uuid = FileNameModel.objects.latest('upload_time')
+        #request.session['uuid'] = str(uuid.id)
+        #insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=session_id)
+        insert_data = MethodModel(model_ja = '決定木モデル',model_en = 'decision_tree_c')
+        insert_data.save()
+        return redirect('stat_application:choice_column')   
+    except:
+        return render(request, 'stat_application/decision_tree_c.html')
+    
+###DicisionTree(回帰)モデルのinput画面
+def decision_tree_r(request):   
+    #通常時state_space.htmlを表示
+    if request.method != 'POST':
+        return render(request, 'stat_application/decision_tree_r.html')
+    try:
+        #ファイル取得し、データをcsv_dataに格納
+        file = request.FILES['file']
+        if file.name.split('.')[-1].lower() != 'csv':
+            return render(request, 'stat_application/decision_tree_r.html')
+        path = os.path.join(UPLOADE_DIR, file.name)
+        session_id = request.session.session_key
+
+        #File名をサーバーに保存
+        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=session_id)
+        insert_data = FileNameModel(file_name = file.name,file_obj = file)
+        insert_data.save()
+        #UUIDを付与
+        uuid = FileNameModel.objects.latest('upload_time')
+        #request.session['uuid'] = str(uuid.id)
+        #insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=session_id)
+        insert_data = MethodModel(model_ja = '決定木モデル',model_en = 'decision_tree_r')
+        insert_data.save()
+        return redirect('stat_application:choice_column')   
+    except:
+        return render(request, 'stat_application/decision_tree_r.html')
+    
+###RandomForest(分類)モデルのinput画面
+def random_forest_c(request):   
+    #通常時state_space.htmlを表示
+    if request.method != 'POST':
+        return render(request, 'stat_application/random_forest_c.html')
+    try:
+        #ファイル取得し、データをcsv_dataに格納
+        file = request.FILES['file']
+        if file.name.split('.')[-1].lower() != 'csv':
+            return render(request, 'stat_application/random_forest_c.html')
+        path = os.path.join(UPLOADE_DIR, file.name)
+        session_id = request.session.session_key
+
+        #File名をサーバーに保存
+        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=session_id)
+        insert_data = FileNameModel(file_name = file.name,file_obj = file)
+        insert_data.save()
+        #UUIDを付与
+        uuid = FileNameModel.objects.latest('upload_time')
+        #request.session['uuid'] = str(uuid.id)
+        #insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=session_id)
+        insert_data = MethodModel(model_ja = 'ランダムフォレストモデル',model_en = 'random_forest_c')
+        insert_data.save()
+        return redirect('stat_application:choice_column')   
+    except:
+        return render(request, 'stat_application/random_forest_c.html')
+    
+###RandomForest(回帰)モデルのinput画面
+def random_forest_r(request):   
+    #通常時state_space.htmlを表示
+    if request.method != 'POST':
+        return render(request, 'stat_application/random_forest_r.html')
+    try:
+        #ファイル取得し、データをcsv_dataに格納
+        file = request.FILES['file']
+        if file.name.split('.')[-1].lower() != 'csv':
+            return render(request, 'stat_application/random_forest_r.html')
+        path = os.path.join(UPLOADE_DIR, file.name)
+        session_id = request.session.session_key
+
+        #File名をサーバーに保存
+        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=session_id)
+        insert_data = FileNameModel(file_name = file.name,file_obj = file)
+        insert_data.save()
+        #UUIDを付与
+        uuid = FileNameModel.objects.latest('upload_time')
+        #request.session['uuid'] = str(uuid.id)
+        #insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=session_id)
+        insert_data = MethodModel(model_ja = 'ランダムフォレストモデル',model_en = 'random_forest_r')
+        insert_data.save()
+        return redirect('stat_application:choice_column')   
+    except:
+        return render(request, 'stat_application/random_forest_r.html')
+    
+###XGBoost(分類)モデルのinput画面
+def xgboost_c(request):   
+    #通常時state_space.htmlを表示
+    if request.method != 'POST':
+        return render(request, 'stat_application/xgboost_c.html')
+    try:
+        #ファイル取得し、データをcsv_dataに格納
+        file = request.FILES['file']
+        if file.name.split('.')[-1].lower() != 'csv':
+            return render(request, 'stat_application/xgboost_c.html')
+        path = os.path.join(UPLOADE_DIR, file.name)
+        session_id = request.session.session_key
+
+        #File名をサーバーに保存
+        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=session_id)
+        insert_data = FileNameModel(file_name = file.name,file_obj = file)
+        insert_data.save()
+        #UUIDを付与
+        uuid = FileNameModel.objects.latest('upload_time')
+        #request.session['uuid'] = str(uuid.id)
+        #insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=session_id)
+        insert_data = MethodModel(model_ja = 'XGBoostモデル',model_en = 'xgboost_c')
+        insert_data.save()
+        return redirect('stat_application:choice_column')   
+    except:
+        return render(request, 'stat_application/xgboost_c.html')
+    
+###XGBoost(回帰)モデルのinput画面
+def xgboost_r(request):   
+    #通常時state_space.htmlを表示
+    if request.method != 'POST':
+        return render(request, 'stat_application/xgboost_r.html')
+    try:
+        #ファイル取得し、データをcsv_dataに格納
+        file = request.FILES['file']
+        if file.name.split('.')[-1].lower() != 'csv':
+            return render(request, 'stat_application/xgboost_r.html')
+        path = os.path.join(UPLOADE_DIR, file.name)
+        session_id = request.session.session_key
+
+        #File名をサーバーに保存
+        #insert_data = FileNameModel(file_name = file.name,file_obj = file,session_id=session_id)
+        insert_data = FileNameModel(file_name = file.name,file_obj = file)
+        insert_data.save()
+        #UUIDを付与
+        uuid = FileNameModel.objects.latest('upload_time')
+        #request.session['uuid'] = str(uuid.id)
+        #insert_data = MethodModel(model_ja = '重回帰モデル',model_en = 'mlr',session_id=session_id)
+        insert_data = MethodModel(model_ja = 'XGBoostモデル',model_en = 'xgboost_r')
+        insert_data.save()
+        return redirect('stat_application:choice_column')   
+    except:
+        return render(request, 'stat_application/xgboost_r.html')
     
 ###アップしたファイルのカラム名からアロケしたい要素を選択
 def choice_column(request):    
@@ -232,9 +394,9 @@ def choice_column(request):
     obj_predict = request.POST.getlist('df_predict') 
     obj_goal = request.POST.getlist('df_goal') 
     #データテーブル表示用
-    #重回帰には日付がなく、画面上だと自動的にソートされてしまうので、強制的にindexを付与
+    #回帰モデル、分類モデルには日付がなく、画面上だと自動的にソートされてしまうので、強制的にindexを付与
     #indexは最後尾に付与されるため、先頭に持ってくるために面倒な処理
-    if calc_model.model_en == 'mlr':
+    if calc_model.model_en == 'mlr' or 'decision_tree' in calc_model.model_en or 'random_forest' in calc_model.model_en or 'xgboost' in calc_model.model_en:
         header_before = csv_data.columns#オリジナルのカラム名を保存
         header = ['index'] + list(header_before)#headerにindex行を追加
         csv_data['index'] = [i for i in range(len(csv_data))]#index行を付与(最後尾)
@@ -262,6 +424,22 @@ def choice_column(request):
         result,result_file_name = cl.calculate(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,request.session.session_key)
         return redirect('stat_application:result')
         #return redirect('stat_application:progress')
+    
+    ###分類モデルの計算結果
+    if obj_goal and ('decision_tree' in calc_model.model_en or 'random_forest' in calc_model.model_en or 'xgboost' in calc_model.model_en):
+        obj_holdout = request.POST['df_holdout']
+        obj_choices = request.POST.getlist('df_data')
+        obj_date = 'hoge'
+        obj_method = calc_model.model_en
+        obj_score = request.POST['df_score']
+        #定数項が選択されれば、フラグを格納
+        try:
+            obj_constflag = request.POST['df_constflag']
+        except:
+            obj_constflag = 0
+        obj_option = list([obj_holdout,obj_method,calc_model.model_ja,obj_constflag,obj_score])
+        result,result_file_name = cl.calculate(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,request.session.session_key)
+        return redirect('stat_application:result')
     ###時系列予測の計算結果
     elif obj_predict:
         obj_holdout = request.POST['df_holdout']
@@ -336,7 +514,7 @@ def result(request):
     _data_predict = pd.read_csv(result_file_name, encoding='ms932')
     
     #グラフ用予測部分だけ色を変えるために綺麗にする処理
-    if summary.model != '重回帰モデル':
+    if summary.model != '重回帰モデル' and summary.model != '決定木モデル' and summary.model != 'ランダムフォレストモデル' and summary.model != 'XGBoostモデル':
         _data_predict = _data_predict.append(_data_ori).sort_values(['date','original'],ascending = [1,0])
         _data_predict['predict'] = (_data_predict.fillna(0)['original']+_data_predict.fillna(0)['predict']).round(2)
         _data_temp = _data_predict

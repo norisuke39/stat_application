@@ -21,7 +21,7 @@
         {% csrf_token %}
         <!-- 使用データの選択-->    
         <!-- 日付項目-->
-        {% if model.model_en != 'mlr'%}
+        {% if model.model_en != 'mlr' and not 'decision_tree' in model.model_en and not 'random_forest' in model.model_en and not 'xgboost' in model.model_en %}
         <div class = "container">
         <table class = "table" width="100%" cellspacing="0">
             <tbody>
@@ -48,7 +48,7 @@
         </div>
         {%endif%}
         <!-- 目的変数項目-->
-        {% if model.model_en == 'mlr'%}
+        {% if model.model_en == 'mlr' or 'decision_tree' in model.model_en or 'random_forest' in model.model_en or 'xgboost' in model.model_en %}
         <div class = "container">
         <fieldset data-role="controlgroup" data-type="horizontal">
         <table id="table" class = "table" width="100%" cellspacing="0">
@@ -155,6 +155,21 @@
                      <td>定数項：{{capflag}}</td>
                      {% endfor %}
                     <td>モデル：{{input_data.df_regression_method}}</td>
+                    {% endif %}
+                    {% if 'decision_tree' in model.model_en %}
+                    <strong style = "color:orange">決定木モデルのオプション</strong>
+                    <td>学習サンプル数：{{input_data.df_holdout}} %</td>
+                    <td>スコアリング方法：{{input_data.df_score}}</td>
+                    {% endif %}
+                    {% if 'random_forest' in model.model_en %}
+                    <strong style = "color:orange">ランダムフォレストモデルのオプション</strong>
+                    <td>学習サンプル数：{{input_data.df_holdout}} %</td>
+                    <td>スコアリング方法：{{input_data.df_score}}</td>
+                    {% endif %}
+                    {% if 'xgboost' in model.model_en %}
+                    <strong style = "color:orange">XGBoostのオプション</strong>
+                    <td>学習サンプル数：{{input_data.df_holdout}} %</td>
+                    <td>スコアリング方法：{{input_data.df_score}}</td>
                     {% endif %}
                 </tr>
             </tbody>

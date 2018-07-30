@@ -31,8 +31,9 @@ def calculate(_col,date,predict,method,obj_option,session_id):
     _data = _data.replace(np.NaN,0)
     ##変数選択
     predict = predict[0]  
-    #説明変数が0の時は除外
-    _data = _data[_data[predict] != 0]
+    #目的変数が0の時は除外
+    if not 'decision_tree' in method and not 'random_forest' in method and not 'xgboost' in method:
+        _data = _data[_data[predict] != 0]
     #ダミーで格納(複数項目が入ることを見据えて※重要)
     _data['hoge'] = 'hoge'
     #回帰分析用に面倒な処理(時系列用の流れを壊さぬよう、一旦説明変数を退避。)
@@ -40,7 +41,7 @@ def calculate(_col,date,predict,method,obj_option,session_id):
     _col = list(['hoge'])
 
     ##月単位への変換
-    if method != 'mlr':
+    if method != 'mlr' and not 'decision_tree' in method and not 'random_forest' in method and not 'xgboost' in method:
         _data['date'] = pd.to_datetime(_data[date[0]],format = '%Y-%m-%d')
         _data['month'] = _data['date'].map(lambda x : x.month)
         _data['year'] = _data['date'].map(lambda x : x.year)
@@ -79,6 +80,18 @@ def calculate(_col,date,predict,method,obj_option,session_id):
     if method == 'mlr':
         _col = evar
         data_result,data_preview,data_ori = pr.forecast_mlr(data_wk,_col,predict,obj_option,session_id)
+    #決定木分析モデル
+    if 'decision_tree' in method:
+        _col = evar
+        data_result,data_preview,data_ori = pr.forecast_decisionTree(data_wk,_col,predict,obj_option,session_id,method)
+    #ランダムフォレストモデル
+    if 'random_forest' in method:
+        _col = evar
+        data_result,data_preview,data_ori = pr.forecast_randomForest(data_wk,_col,predict,obj_option,session_id,method)
+    #XGBoostモデル
+    if 'xgboost' in method:
+        _col = evar
+        data_result,data_preview,data_ori = pr.forecast_xgboost(data_wk,_col,predict,obj_option,session_id,method)
 
     ###ファイル保存
     #サーバー

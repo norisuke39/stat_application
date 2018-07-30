@@ -37,6 +37,10 @@
                     <td><b>R^2</b>：{{summary.rsq}}</td>
                     <td><b>自由度調整済みR^2</b>：{{summary.rsq_adj}}</td>
                     {% endif %}
+                    {% if summary.model == '決定木モデル' or summary.model == 'ランダムフォレストモデル' or summary.model == 'XGBoostモデル'%}
+                    <td><b>AUC</b>：{{summary.auc}}</td>
+                    <td><b>Accuracy</b>：{{summary.accuracy}}</td>
+                    {% endif %}
                 </tr>
             </tbody>
             </table>
@@ -77,7 +81,7 @@
                   pointBorderWidth: 2,                  
                   data: predict,//y軸の入力
                 },
-                   {% if summary.model == '重回帰モデル' %}
+                   {% if summary.model == '重回帰モデル' or summary.model == '決定木モデル' %}
                   {
                   label: "Holdout",
                   lineTension: 0,

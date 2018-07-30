@@ -24,6 +24,11 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.layers.convolutional import Conv1D, UpSampling1D
 from keras.layers.pooling import MaxPooling1D
+from sklearn.model_selection import train_test_split,GridSearchCV
+from sklearn.tree import DecisionTreeClassifier,DecisionTreeRegressor
+from sklearn.ensemble import RandomForestClassifier,RandomForestRegressor
+from sklearn.metrics import (roc_curve, auc, accuracy_score)
+import xgboost as xgb
 ###分類予測
 #ロジスティック回帰モデル
 #決定木モデル
@@ -527,6 +532,250 @@ def forecast_mlr(_data,_col,predict,option,session_id):
     #insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout,session_id=session_id)
     insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout)
     insert_data.save()
+
+    #preview用データ格納
+    data_rsp = pd.DataFrame(columns = [])
+    data_rsp['index'] = [int(i) for i in range(len(_data))]
+    data_rsp['original'] = Y_all
+    data_rsp['predict'] = pred_df
+    data_stat_preview = data_stat_preview.append(data_rsp)
+    #Result画面でのグラフ用にオリジナルデータ + 予測データ
+    data_rsp = pd.DataFrame(columns = [])
+    data_rsp['index'] = [int(i) for i in range(len(_data))]
+    data_rsp['original'] = Y_all
+    data_rsp['predict'] = pred_df
+    data_ori = data_ori.append(data_rsp)
+    return data_stat,data_stat_preview,data_ori
+
+#決定木分析での予測
+def forecast_decisionTree(_data,_col,predict,option,session_id,method):
+    ###変数まとめ
+    estimate_method = option[1]
+
+    #データフレーム初期化
+    _data_pr = pd.DataFrame(columns = [])
+    data_rsp = pd.DataFrame(columns = [])
+    data_stat = pd.DataFrame(columns = [])
+    data_all = pd.DataFrame(columns = [])
+    data_stat_preview = pd.DataFrame(columns = [])
+    data_ori = pd.DataFrame(columns = [])
+    
+    ###選択された粒度ごとで計算
+    _data_sum = _data
+
+    ##model入力値
+    holdout = int(option[0])
+    X_train, X_test, y_train, y_test = train_test_split(_data[_col], _data[predict], test_size=holdout/100, random_state=0,)
+    #_data_model = _data[:-(holdout)]
+    X_train = X_train.fillna(0)
+    y_train = y_train.fillna(0)
+    X_all = _data[_col].fillna(0)
+    Y_all = _data[predict].fillna(0)
+    
+    # 動かすパラメータを明示的に表示、今回は決定木の数を変えてみる
+    params = {#'n_estimators'  : [400],
+                    #'max_depth': [8],
+                    'random_state' : [1],
+                  #'gamma' : [0.1,0.2,0.3,0.4],
+                  #'colsample_bytree' : [0.1,0.2,0.3,0.4,0.5,0.6,0.7],
+                  #'subsample':[0.1,0.2,0.3,0.4,0.5,0.6,0.7],
+                  #'min_child_weight' : [1,3,5,7,9]
+         }
+    
+    
+    if method =='decision_tree_c':
+        model = DecisionTreeClassifier()
+    else:
+        model = DecisionTreeRegressor()
+    
+    model_cv = GridSearchCV(model, params, verbose=3,scoring = option[4])
+    result = model_cv.fit(X_train,y_train)
+    
+    # 改めて最適パラメータで学習
+    if method =='decision_tree_c':
+        model = DecisionTreeClassifier(**model_cv.best_params_)
+    else:
+        model = DecisionTreeRegressor(**model_cv.best_params_)
+    
+    model.fit(X_train, y_train)
+
+    # 予測値計算
+    pred_df = model.predict(X_test)
+    fpr, tpr, thresholds = roc_curve(y_test, pred_df, pos_label=1)
+    _auc = auc(fpr, tpr)
+    if method =='decision_tree_c':
+        _accuracy = accuracy_score(pred_df, y_test)
+    else:
+        _accuracy = 0
+
+    #insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout,session_id=session_id)
+    insert_data = SummaryModel(model = option[2],auc = round(_auc,3),accuracy = round(_accuracy,3), method = estimate_method,holdout = holdout)
+    insert_data.save()
+    
+    pred_df = model.predict(X_all)
+
+    #preview用データ格納
+    data_rsp = pd.DataFrame(columns = [])
+    data_rsp['index'] = [int(i) for i in range(len(_data))]
+    data_rsp['original'] = Y_all
+    data_rsp['predict'] = pred_df
+    data_stat_preview = data_stat_preview.append(data_rsp)
+    #Result画面でのグラフ用にオリジナルデータ + 予測データ
+    data_rsp = pd.DataFrame(columns = [])
+    data_rsp['index'] = [int(i) for i in range(len(_data))]
+    data_rsp['original'] = Y_all
+    data_rsp['predict'] = pred_df
+    data_ori = data_ori.append(data_rsp)
+    return data_stat,data_stat_preview,data_ori
+
+#ランダムフォレストでの予測
+def forecast_randomForest(_data,_col,predict,option,session_id,method):
+    ###変数まとめ
+    estimate_method = option[1]
+
+    #データフレーム初期化
+    _data_pr = pd.DataFrame(columns = [])
+    data_rsp = pd.DataFrame(columns = [])
+    data_stat = pd.DataFrame(columns = [])
+    data_all = pd.DataFrame(columns = [])
+    data_stat_preview = pd.DataFrame(columns = [])
+    data_ori = pd.DataFrame(columns = [])
+    
+    ###選択された粒度ごとで計算
+    _data_sum = _data
+
+    ##model入力値
+    holdout = int(option[0])
+    X_train, X_test, y_train, y_test = train_test_split(_data[_col], _data[predict], test_size=holdout/100, random_state=0,)
+    #_data_model = _data[:-(holdout)]
+    X_train = X_train.fillna(0)
+    y_train = y_train.fillna(0)
+    X_all = _data[_col].fillna(0)
+    Y_all = _data[predict].fillna(0)
+    
+    # 動かすパラメータを明示的に表示、今回は決定木の数を変えてみる
+    params = {#'n_estimators'  : [400],
+                    'n_jobs': [-1],
+                    #'max_depth': [8],
+                    'random_state' : [1],
+                  #'gamma' : [0.1,0.2,0.3,0.4],
+                  #'colsample_bytree' : [0.1,0.2,0.3,0.4,0.5,0.6,0.7],
+                  #'subsample':[0.1,0.2,0.3,0.4,0.5,0.6,0.7],
+                  #'min_child_weight' : [1,3,5,7,9]
+         }
+    
+    
+    if method =='random_forest_c':
+        model = RandomForestClassifier()
+    else:
+        model = RandomForestRegressor()
+    model_cv = GridSearchCV(model, params, verbose=3,scoring = option[4])
+    result = model_cv.fit(X_train,y_train)
+    
+    # 改めて最適パラメータで学習
+    if method =='random_forest_c':
+        model = RandomForestClassifier(**model_cv.best_params_)
+    else:
+        model = RandomForestRegressor(**model_cv.best_params_)
+    
+    model.fit(X_train, y_train)
+
+    # 予測値計算
+    pred_df = model.predict(X_test)
+    fpr, tpr, thresholds = roc_curve(y_test, pred_df, pos_label=1)
+    _auc = auc(fpr, tpr)
+    if method =='random_forest_c':
+        _accuracy = accuracy_score(pred_df, y_test)
+    else:
+        _accuracy = 0
+
+    #insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout,session_id=session_id)
+    insert_data = SummaryModel(model = option[2],auc = round(_auc,3),accuracy = round(_accuracy,3), method = estimate_method,holdout = holdout)
+    insert_data.save()
+    
+    pred_df = model.predict(X_all)
+
+    #preview用データ格納
+    data_rsp = pd.DataFrame(columns = [])
+    data_rsp['index'] = [int(i) for i in range(len(_data))]
+    data_rsp['original'] = Y_all
+    data_rsp['predict'] = pred_df
+    data_stat_preview = data_stat_preview.append(data_rsp)
+    #Result画面でのグラフ用にオリジナルデータ + 予測データ
+    data_rsp = pd.DataFrame(columns = [])
+    data_rsp['index'] = [int(i) for i in range(len(_data))]
+    data_rsp['original'] = Y_all
+    data_rsp['predict'] = pred_df
+    data_ori = data_ori.append(data_rsp)
+    return data_stat,data_stat_preview,data_ori
+
+#XGBoostでの予測
+def forecast_xgboost(_data,_col,predict,option,session_id,method):
+    ###変数まとめ
+    estimate_method = option[1]
+
+    #データフレーム初期化
+    _data_pr = pd.DataFrame(columns = [])
+    data_rsp = pd.DataFrame(columns = [])
+    data_stat = pd.DataFrame(columns = [])
+    data_all = pd.DataFrame(columns = [])
+    data_stat_preview = pd.DataFrame(columns = [])
+    data_ori = pd.DataFrame(columns = [])
+    
+    ###選択された粒度ごとで計算
+    _data_sum = _data
+
+    ##model入力値
+    holdout = int(option[0])
+    X_train, X_test, y_train, y_test = train_test_split(_data[_col], _data[predict], test_size=holdout/100, random_state=0,)
+    #_data_model = _data[:-(holdout)]
+    X_train = X_train.fillna(0)
+    y_train = y_train.fillna(0)
+    X_all = _data[_col].fillna(0)
+    Y_all = _data[predict].fillna(0)
+    
+    # 動かすパラメータを明示的に表示、今回は決定木の数を変えてみる
+    params = {#'n_estimators'  : [400],
+                    'n_jobs': [-1],
+                    #'max_depth': [8],
+                    'random_state' : [1],
+                  #'gamma' : [0.1,0.2,0.3,0.4],
+                  #'colsample_bytree' : [0.1,0.2,0.3,0.4,0.5,0.6,0.7],
+                  #'subsample':[0.1,0.2,0.3,0.4,0.5,0.6,0.7],
+                  #'min_child_weight' : [1,3,5,7,9]
+         }
+    
+    
+    if method =='xgboost_c':
+        # xgboostモデルの作成
+        model = xgb.XGBClassifier()
+    else:
+        model = xgb.XGBRegressor()
+    model_cv = GridSearchCV(model, params, verbose=3,scoring = option[4])
+    result = model_cv.fit(X_train,y_train)
+    
+    # 改めて最適パラメータで学習
+    if method =='xgboost_c':
+        model = xgb.XGBClassifier(**model_cv.best_params_)
+    else:
+        model = xgb.XGBRegressor(**model_cv.best_params_)
+    
+    model.fit(X_train, y_train)
+
+    # 予測値計算
+    pred_df = model.predict(X_test)
+    fpr, tpr, thresholds = roc_curve(y_test, pred_df, pos_label=1)
+    _auc = auc(fpr, tpr)
+    if method =='xgboost_c':
+        _accuracy = accuracy_score(pred_df, y_test)
+    else:
+        _accuracy = 0
+
+    #insert_data = SummaryModel(model = option[2],method = estimate_method,aic=round(result.aic,3),bic=round(result.bic,3),rsq=round(result.rsquared,3),rsq_adj=round(result.rsquared_adj,3),holdout = holdout,session_id=session_id)
+    insert_data = SummaryModel(model = option[2],auc = round(_auc,3),accuracy = round(_accuracy,3), method = estimate_method,holdout = holdout)
+    insert_data.save()
+    
+    pred_df = model.predict(X_all)
 
     #preview用データ格納
     data_rsp = pd.DataFrame(columns = [])

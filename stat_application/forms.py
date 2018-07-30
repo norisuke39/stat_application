@@ -16,6 +16,11 @@ REGRESSION_METHOD_CHOICES = (
     #('glm_po', '一般化線形モデル(ポアソン回帰)'),
 )
 
+SCORING_CHOICES = (
+    ('roc_auc', 'AUC'),
+    ('accuracy', 'Accuracy'),
+)
+
 FLAG_CHOICES = (
     (1, 'あり'),
 )
@@ -181,5 +186,10 @@ class DfColumnForm(forms.Form):
         choices=REGRESSION_METHOD_CHOICES,
         required=True,
     )
-                
+        df_score = forms.ChoiceField(
+        label='score',
+        widget=forms.Select,
+        choices=SCORING_CHOICES,
+        required=True,
+    )           
                 

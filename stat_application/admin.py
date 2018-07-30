@@ -18,8 +18,8 @@ class ProgressAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'progress')
     
 class SummaryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'model','aic', 'bic' ,'hqic' , 'p','d','q','sp','sd','sq','method','upload_time','rsq','rsq_adj','holdout','dw')
-    list_display_links = ('id', 'model','aic', 'bic' ,'hqic' , 'p','d','q','sp','sd','sq','method','upload_time','rsq','rsq_adj','holdout','dw')
+    list_display = ('id', 'model','aic', 'bic' ,'hqic' , 'p','d','q','sp','sd','sq','method','upload_time','rsq','rsq_adj','holdout','dw','auc','accuracy')
+    list_display_links = ('id', 'model','aic', 'bic' ,'hqic' , 'p','d','q','sp','sd','sq','method','upload_time','rsq','rsq_adj','holdout','dw','auc','accuracy')
 
 admin.site.register(FileNameModel, FileNameAdmin)
 admin.site.register(MethodModel, MethodAdmin)

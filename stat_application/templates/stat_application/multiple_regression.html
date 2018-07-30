@@ -14,7 +14,7 @@
       <!-- ドラッグアンドドロップエリア-->
         <div class="card mb-3">
             <div class="card-header">
-                <i class="fas fa-file"></i> Data Input Area</div>
+                <i class="fas fa-file"></i> Data Input Area(ファイル名は英語でお願いします)</div>
                 <div class="card-body">
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -53,7 +53,7 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <p style = "color:orange">"目的変数"の項目と"説明変数"の項目が入ったデータが必要<br></p>
                <thead>
-                    <tr>                    
+                    <tr style = "color:orange">                    
                   <th>家賃(目的変数)</th>
                   <th>部屋の広さ(説明変数)</th>
                   <th>駅からの距離(説明変数)</th>

@@ -41,6 +41,8 @@ class SummaryModel(models.Model):
     rsq = models.FloatField(default = 0)
     rsq_adj = models.FloatField(default = 0)
     dw = models.FloatField(default = 0)
+    auc = models.FloatField(default = 0)
+    accuracy = models.FloatField(default = 0)
     holdout = models.IntegerField(default = 0)
     method = models.CharField(max_length = 50)
     #session_id = models.CharField(max_length = 50)
