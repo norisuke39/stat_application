@@ -88,4 +88,4 @@ webencodings==0.5.1
 websocket-client==0.47.0
 Werkzeug==0.14.1
 whitenoise==3.3.1
-xgboost==0.72
+xgboost==0.72.1
