@@ -1,0 +1,26 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:               Survived   R-squared:                        -inf
+Model:                            OLS   Adj. R-squared:                   -inf
+Method:                 Least Squares   F-statistic:                    -164.5
+Date:                Tue, 31 Jul 2018   Prob (F-statistic):               1.00
+Time:                        16:58:29   Log-Likelihood:                 11166.
+No. Observations:                 332   AIC:                        -2.233e+04
+Df Residuals:                     329   BIC:                        -2.231e+04
+Df Model:                           2                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          1.0000   1.18e-16   8.46e+15      0.000       1.000       1.000
+Pclass      3.469e-16   4.21e-17      8.236      0.000    2.64e-16     4.3e-16
+Age         2.429e-17   2.12e-18     11.430      0.000    2.01e-17    2.85e-17
+==============================================================================
+Omnibus:                        0.550   Durbin-Watson:                   0.840
+Prob(Omnibus):                  0.759   Jarque-Bera (JB):                0.460
+Skew:                           0.090   Prob(JB):                        0.795
+Kurtosis:                       3.024   Cond. No.                         110.
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.

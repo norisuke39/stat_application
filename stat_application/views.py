@@ -420,10 +420,11 @@ def choice_column(request):
         obj_option = list([obj_holdout,obj_method,calc_model.model_ja,obj_constflag])
         #queue = mp.Queue()
         #p = Process(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,session_id,queue))
-        #p.start()
-        result,result_file_name = cl.calculate(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,request.session.session_key)
-        return redirect('stat_application:result')
-        #return redirect('stat_application:progress')
+        p = th.Thread(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,session_id))
+        p.start()
+        #result,result_file_name = cl.calculate(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,request.session.session_key)
+        #return redirect('stat_application:result')
+        return redirect('stat_application:progress')
     
     ###分類モデルの計算結果
     if obj_goal and ('decision_tree' in calc_model.model_en or 'random_forest' in calc_model.model_en or 'xgboost' in calc_model.model_en):
@@ -438,8 +439,13 @@ def choice_column(request):
         except:
             obj_constflag = 0
         obj_option = list([obj_holdout,obj_method,calc_model.model_ja,obj_constflag,obj_score])
-        result,result_file_name = cl.calculate(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,request.session.session_key)
-        return redirect('stat_application:result')
+        
+        p = th.Thread(target = cl.calculate,args =(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,session_id))
+        p.start()
+        #result,result_file_name = cl.calculate(obj_choices,obj_date,obj_goal,calc_model.model_en,obj_option,request.session.session_key)
+        #return redirect('stat_application:result')
+        return redirect('stat_application:progress')
+    
     ###時系列予測の計算結果
     elif obj_predict:
         obj_holdout = request.POST['df_holdout']
