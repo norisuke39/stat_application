@@ -339,7 +339,7 @@ def forecast_state_space(_data,_unique_list,_col,predict,option,session_id):
         rcParams['figure.figsize'] = 15, 6
         #plt.plot(ts)
         #plt.plot(pred, "r")
-        plt.savefig(UPLOADE_DIR +'/temp/state_space/pic/'+'_'.join(row) +'.jpg')
+        plt.savefig(UPLOADE_DIR +'/temp/state_space/pic/'+'_'.join(row) +'.png')
         
         #保存用に形式揃え
         pred_df = pd.DataFrame(pred,columns = ['yhat'])
